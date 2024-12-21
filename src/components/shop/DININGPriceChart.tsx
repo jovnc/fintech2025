@@ -124,9 +124,7 @@ export function DININGPriceChart() {
                             <p className="text-primary">
                               Price: ${payload[0].value}
                             </p>
-                            <p className="text-secondary">
-                              Volume: {payload[1].value}
-                            </p>
+                            <p className="">Volume: {payload[1].value}</p>
                           </div>
                         );
                       }

@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Navbar } from "@/components/nav/NavBar";
 import { SessionProvider } from "next-auth/react";
 import { ChatComponent } from "@/components/chat/ChatComponent";
+import { ThemeProvider } from "@/components/dark-mode/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,16 +28,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SessionProvider>
-          <Navbar />
-          {children}
-          <Toaster />
-          <ChatComponent />
-        </SessionProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <SessionProvider>
+            <Navbar />
+            {children}
+            <Toaster />
+            <ChatComponent />
+          </SessionProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { LoginModal } from "../auth/LoginModal";
 import LogoutButton from "../auth/LogoutButton";
 import { usePathname } from "next/navigation";
+import { DarkModeToggle } from "../dark-mode/dark-mode-toggle";
 
 export default function DesktopMenu({
   navItems,
@@ -31,6 +32,7 @@ export default function DesktopMenu({
       })}
       {!session?.user && <LoginModal />}
       {session?.user && <LogoutButton />}
+      <DarkModeToggle />
     </div>
   );
 }
