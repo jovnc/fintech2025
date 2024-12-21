@@ -15,7 +15,9 @@ export function SalesVolume() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>DINING Token Sales Volume</CardTitle>
+        <CardTitle className="text-primary">
+          DINING Token Sales Volume
+        </CardTitle>
         <CardDescription>Trading activity overview</CardDescription>
       </CardHeader>
       <CardContent>

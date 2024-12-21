@@ -39,7 +39,7 @@ export function TokenListingTable() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>DINING Token Listings</CardTitle>
+        <CardTitle className="text-primary">DINING Token Listings</CardTitle>
         <CardDescription>Current listings and prices</CardDescription>
       </CardHeader>
       <CardContent>
@@ -59,7 +59,12 @@ export function TokenListingTable() {
                 <TableCell>{listing.amount} DINING</TableCell>
                 <TableCell>${listing.price.toFixed(2)}</TableCell>
                 <TableCell>
-                  <Button onClick={() => handleBuy(listing.id)}>Buy</Button>
+                  <Button
+                    onClick={() => handleBuy(listing.id)}
+                    className="hover:bg-primary-foreground hover:text-primary"
+                  >
+                    Buy
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}

@@ -4,18 +4,18 @@ import { TokenListingTable } from "@/components/shop/TokenListingTable";
 
 export default function page() {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 text-primary">
+    <div className="grid grid-cols-1 lg:grid-cols-2">
       {/* Breakfast Credits */}
       <div className="flex flex-col gap-4 p-4">
         <DININGPriceChart />
-        <SalesVolume />
+        {/* <SalesVolume /> */}
         <TokenListingTable />
       </div>
 
       {/* Dinner Credits */}
       <div className="flex flex-col gap-4 p-4">
         <DININGPriceChart />
-        <SalesVolume />
+        {/* <SalesVolume /> */}
         <TokenListingTable />
       </div>
     </div>

@@ -62,7 +62,9 @@ export function DININGPriceChart() {
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle className="text-lg sm:text-xl">DINING Token Price</CardTitle>
+        <CardTitle className="text-lg sm:text-xl text-primary">
+          DINING Token Price
+        </CardTitle>
         <CardDescription className="text-sm">
           Price and volume over time
         </CardDescription>
@@ -72,7 +74,7 @@ export function DININGPriceChart() {
           value={timeFrame}
           onValueChange={(value) => setTimeFrame(value as TimeFrame)}
         >
-          <TabsList className="grid w-full grid-cols-3 mb-8">
+          <TabsList className="grid w-full grid-cols-3 mb-8 h-full">
             <TabsTrigger value="hour">Hourly</TabsTrigger>
             <TabsTrigger value="day">Daily</TabsTrigger>
             <TabsTrigger value="month">Monthly</TabsTrigger>

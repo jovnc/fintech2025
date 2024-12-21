@@ -35,7 +35,9 @@ export function ChatComponent() {
             className="bg-white rounded-lg shadow-lg w-80 h-96 flex flex-col"
           >
             <div className="flex justify-between items-center p-4 border-b">
-              <h2 className="text-lg font-semibold">Chat</h2>
+              <h2 className="text-lg font-semibold text-primary-foreground">
+                Chat
+              </h2>
               <Button
                 variant="ghost"
                 size="icon"
@@ -105,6 +107,7 @@ export function ChatComponent() {
                   onChange={handleInputChange}
                   placeholder="Type your message..."
                   disabled={isLoading}
+                  className="bg-white"
                 />
                 <Button type="submit" size="icon" disabled={isLoading}>
                   <Send className="h-4 w-4" />
