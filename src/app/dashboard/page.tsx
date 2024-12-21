@@ -8,7 +8,7 @@ export default async function page() {
     return <div>You do not have access</div>; // change to show langing page
   }
   return (
-    <div>
+    <div className="text-primary">
       <WalletSetup userId={session?.user?.id ?? ""} />
       {/* <WalletBalance userId={session?.user?.id ?? ""} /> */}
       <p>Home</p>

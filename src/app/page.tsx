@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default async function page() {
   return (
-    <div className="grid xl:grid-cols-2 gap-x-12 h-full w-full p-10 font-serif text-amber-950">
+    <div className="grid xl:grid-cols-2 gap-x-12 h-full w-full p-10 font-serif text-primary">
       <div className="flex justify-center items-center">
         <Image src="/logo.png" width={500} height={500} alt="Logo" />
       </div>
@@ -10,7 +10,7 @@ export default async function page() {
         <div className="font-bold text-center text-3xl">
           A better way to utilise your dining credits.
         </div>
-        <div className="text-center text-gray-800 text-lg">
+        <div className="text-center text-secondary text-lg">
           Staying on campus but struggling to make the most of your dining
           credits? Our platform allows you to easily exchange, share, or give
           back, ensuring no credit ever goes to waste.
@@ -25,7 +25,7 @@ export default async function page() {
               className="p-5"
             />
             <div className="text-center text-xl font-semibold">Buy</div>
-            <div className="text-center text-lg text-gray-500">
+            <div className="text-center text-lg text-secondary">
               credits from others
             </div>
           </div>
@@ -39,7 +39,7 @@ export default async function page() {
               className="p-5"
             />
             <div className="text-center text-xl font-semibold">Sell</div>
-            <div className="text-center text-lg text-gray-500">
+            <div className="text-center text-lg text-secondary">
               unused credits
             </div>
           </div>
@@ -52,7 +52,7 @@ export default async function page() {
               className="p-5"
             />
             <div className="text-center text-xl font-semibold">Donate</div>
-            <div className="text-center text-lg text-gray-500">
+            <div className="text-center text-lg text-secondary">
               credits to charity
             </div>
           </div>

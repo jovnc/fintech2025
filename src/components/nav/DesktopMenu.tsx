@@ -22,7 +22,9 @@ export default function DesktopMenu({
             key={idx + "desktop"}
             href={item.href}
             className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors hover:text-primary hover:bg-muted ${
-              isActive ? "text-primary bg-primary/10" : "text-muted-foreground"
+              isActive
+                ? "text-primary bg-primary-foreground"
+                : "text-muted-foreground"
             }`}
           >
             {/* <item.icon className="w-4 h-4 mr-2" /> */}
