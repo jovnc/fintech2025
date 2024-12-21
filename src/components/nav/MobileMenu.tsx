@@ -1,7 +1,12 @@
 "use client";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -25,8 +30,9 @@ export default function MobileMenu({
           </Button>
         </SheetTrigger>
         <SheetContent side="right" className="w-[240px] sm:w-[300px]">
+          <SheetTitle></SheetTitle>
           <div className="flex flex-col space-y-4 mt-4">
-            <h2 className="text-lg font-semibold">Menu</h2>
+            {/* <h2 className="text-lg font-semibold">Menu</h2> */}
             <nav className="flex flex-col space-y-4">
               {navItems.map((item, idx) => {
                 const isActive = pathname === item.href;

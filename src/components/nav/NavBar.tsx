@@ -7,7 +7,9 @@ import DesktopMenu from "./DesktopMenu";
 const navItems = [
   { href: "/", label: "Home" },
   { href: "/dashboard", label: "Dashboard" },
-  { href: "/shop", label: "Buy / Sell Credits" },
+  { href: "/shop", label: "Buy / Sell" },
+  { href: "/donate", label: "Donate" },
+  { href: "/admin", label: "Admin" },
 ];
 
 export async function Navbar({}) {

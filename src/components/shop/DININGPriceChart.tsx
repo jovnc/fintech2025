@@ -1,14 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import {
   Card,
   CardContent,
@@ -16,14 +9,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-import { Button } from "@/components/ui/button";
+import { ChartContainer, ChartTooltip } from "@/components/ui/chart";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
-// Mock data for the DINING token price over time
+// Mock data
 const hourlyData = [
   { time: "00:00", price: 100, volume: 500 },
   { time: "01:00", price: 102, volume: 450 },
@@ -71,68 +60,100 @@ export function DININGPriceChart() {
   };
 
   return (
-    <Card>
+    <Card className="w-full">
       <CardHeader>
-        <CardTitle>DINING Token Price</CardTitle>
-        <CardDescription>Price and volume over time</CardDescription>
+        <CardTitle className="text-lg sm:text-xl">DINING Token Price</CardTitle>
+        <CardDescription className="text-sm">
+          Price and volume over time
+        </CardDescription>
       </CardHeader>
-      <CardContent>
-        <div className="mb-4 flex justify-end space-x-2">
-          <Button
-            variant={timeFrame === "hour" ? "default" : "outline"}
-            onClick={() => setTimeFrame("hour")}
-          >
-            Hourly
-          </Button>
-          <Button
-            variant={timeFrame === "day" ? "default" : "outline"}
-            onClick={() => setTimeFrame("day")}
-          >
-            Daily
-          </Button>
-          <Button
-            variant={timeFrame === "month" ? "default" : "outline"}
-            onClick={() => setTimeFrame("month")}
-          >
-            Monthly
-          </Button>
-        </div>
-        <ChartContainer
-          config={{
-            price: {
-              label: "Price",
-              color: "hsl(var(--chart-1))",
-            },
-            volume: {
-              label: "Volume",
-              color: "hsl(var(--chart-2))",
-            },
-          }}
-          className="h-[300px]"
+      <CardContent className="p-2 sm:p-6">
+        <Tabs
+          value={timeFrame}
+          onValueChange={(value) => setTimeFrame(value as TimeFrame)}
         >
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={getData()}>
-              <XAxis dataKey="time" />
-              <YAxis yAxisId="left" />
-              <YAxis yAxisId="right" orientation="right" />
-              <ChartTooltip content={<ChartTooltipContent />} />
-              <Line
-                yAxisId="left"
-                type="monotone"
-                dataKey="price"
-                stroke="var(--color-price)"
-                strokeWidth={2}
-              />
-              <Line
-                yAxisId="right"
-                type="monotone"
-                dataKey="volume"
-                stroke="var(--color-volume)"
-                strokeWidth={2}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </ChartContainer>
+          <TabsList className="grid w-full grid-cols-3 mb-8">
+            <TabsTrigger value="hour">Hourly</TabsTrigger>
+            <TabsTrigger value="day">Daily</TabsTrigger>
+            <TabsTrigger value="month">Monthly</TabsTrigger>
+          </TabsList>
+          <TabsContent value={timeFrame}>
+            <ChartContainer
+              config={{
+                price: {
+                  label: "Price",
+                  color: "hsl(var(--chart-1))",
+                },
+                volume: {
+                  label: "Volume",
+                  color: "hsl(var(--chart-2))",
+                },
+              }}
+              className="h-[40vh] min-h-[200px] w-full"
+            >
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart
+                  data={getData()}
+                  margin={{ top: 5, right: 5, left: 0, bottom: 5 }}
+                >
+                  <XAxis
+                    dataKey="time"
+                    tick={{ fontSize: 10 }}
+                    tickMargin={5}
+                    interval="preserveStartEnd"
+                  />
+                  <YAxis
+                    yAxisId="left"
+                    tick={{ fontSize: 10 }}
+                    tickFormatter={(value) => `$${value}`}
+                    width={40}
+                  />
+                  <YAxis
+                    yAxisId="right"
+                    orientation="right"
+                    tick={{ fontSize: 10 }}
+                    tickFormatter={(value) => `${value / 1000}k`}
+                    width={40}
+                  />
+                  <ChartTooltip
+                    content={({ active, payload, label }) => {
+                      if (active && payload && payload.length) {
+                        return (
+                          <div className="bg-background border border-border p-2 rounded shadow-md text-xs">
+                            <p className="font-bold">{label}</p>
+                            <p className="text-primary">
+                              Price: ${payload[0].value}
+                            </p>
+                            <p className="text-secondary">
+                              Volume: {payload[1].value}
+                            </p>
+                          </div>
+                        );
+                      }
+                      return null;
+                    }}
+                  />
+                  <Line
+                    yAxisId="left"
+                    type="monotone"
+                    dataKey="price"
+                    stroke="var(--color-price)"
+                    strokeWidth={2}
+                    dot={false}
+                  />
+                  <Line
+                    yAxisId="right"
+                    type="monotone"
+                    dataKey="volume"
+                    stroke="var(--color-volume)"
+                    strokeWidth={2}
+                    dot={false}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </ChartContainer>
+          </TabsContent>
+        </Tabs>
       </CardContent>
     </Card>
   );
