@@ -10,7 +10,7 @@ export default async function page() {
   return (
     <div>
       <WalletSetup userId={session?.user?.id ?? ""} />
-      <WalletBalance userId={session?.user?.id ?? ""} />
+      {/* <WalletBalance userId={session?.user?.id ?? ""} /> */}
       <p>Home</p>
     </div>
   );
