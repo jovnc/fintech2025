@@ -11,7 +11,7 @@ export default function page() {
       <h1 className="text-3xl font-bold mb-6 text-primary">
         Donate Your Unused Dining Credits
       </h1>
-      <div className="grid gap-8 md:grid-cols-2">
+      <div className="grid gap-16 md:grid-cols-2">
         <div>
           <p className="mb-4">
             Help your community by donating your unused dining credits. Every

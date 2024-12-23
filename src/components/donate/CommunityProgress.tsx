@@ -15,6 +15,9 @@ export function CommunityProgress({ current, goal }: CommunityProgressProps) {
       <p className="text-sm text-muted-foreground">
         {current.toLocaleString()} / {goal.toLocaleString()} credits donated
       </p>
+      <p className="text-sm">
+        Students and staff like you are making a difference!
+      </p>
     </div>
   );
 }

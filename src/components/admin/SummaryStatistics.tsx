@@ -13,7 +13,7 @@ export function SummaryStatistics({
 }: SummaryStatisticsProps) {
   return (
     <div className="grid gap-4 md:grid-cols-3">
-      <Card>
+      <Card className="bg-gradient-to-br from-orange-100 to-orange-200">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Total Accounts</CardTitle>
         </CardHeader>
@@ -21,7 +21,7 @@ export function SummaryStatistics({
           <div className="text-2xl font-bold">{totalAccounts}</div>
         </CardContent>
       </Card>
-      <Card>
+      <Card className="bg-gradient-to-br from-orange-100 to-orange-200">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">
             Total Dining Credits
@@ -31,7 +31,7 @@ export function SummaryStatistics({
           <div className="text-2xl font-bold">{totalDiningCredits}</div>
         </CardContent>
       </Card>
-      <Card>
+      <Card className="bg-gradient-to-br from-orange-100 to-orange-200">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">
             Total Breakfast Credits
