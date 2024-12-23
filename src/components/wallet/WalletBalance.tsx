@@ -12,10 +12,10 @@ export default function WalletBalance({ userId }: { userId: string }) {
         const res = await getWalletBalance(userId);
         setWalletBalance(res);
       } catch (error) {
-        // toast({
-        //   title: "Not linked to wallet",
-        //   description: "Please link a wallet to your account",
-        // });
+        toast({
+          title: "Not linked to wallet",
+          description: "Please link a wallet to your account",
+        });
       }
     };
     handleGetWalletBalance();

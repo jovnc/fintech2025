@@ -26,10 +26,16 @@ export async function Navbar({}) {
           </div>
 
           {/* Desktop menu */}
-          <DesktopMenu navItems={navItems} session={session} />
+          {session && <DesktopMenu navItems={navItems} session={session} />}
+          {!session && (
+            <DesktopMenu navItems={[navItems[0]]} session={session} />
+          )}
 
           {/* Mobile menu button */}
-          <MobileMenu navItems={navItems} session={session} />
+          {session && <MobileMenu navItems={navItems} session={session} />}
+          {!session && (
+            <MobileMenu navItems={[navItems[0]]} session={session} />
+          )}
         </div>
       </div>
     </nav>

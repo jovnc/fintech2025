@@ -49,13 +49,13 @@ export function AccountsTable({ accounts }: AccountsTableProps) {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-row justify-between items-center gap-4">
         <Input
           type="text"
           placeholder="Search accounts..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="max-w-sm"
+          className="max-w-sm text-sm"
         />
         <Select
           value={pageSize.toString()}

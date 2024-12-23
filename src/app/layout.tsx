@@ -6,6 +6,9 @@ import { Navbar } from "@/components/nav/NavBar";
 import { SessionProvider } from "next-auth/react";
 import { ChatComponent } from "@/components/chat/ChatComponent";
 import { ThemeProvider } from "@/components/dark-mode/theme-provider";
+import { WagmiProvider } from "wagmi";
+import { config } from "@/lib/wagmi/config";
+import { Providers } from "./providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,19 +35,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <SessionProvider>
-            <Navbar />
-            {children}
-            <Toaster />
-            <ChatComponent />
-          </SessionProvider>
-        </ThemeProvider>
+        <Providers>
+          <Navbar />
+          {children}
+          <Toaster />
+          <ChatComponent />
+        </Providers>
       </body>
     </html>
   );

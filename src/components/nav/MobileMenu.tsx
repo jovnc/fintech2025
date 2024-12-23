@@ -32,7 +32,6 @@ export default function MobileMenu({
         <SheetContent side="right" className="w-[240px] sm:w-[300px]">
           <SheetTitle></SheetTitle>
           <div className="flex flex-col space-y-4 mt-4">
-            {/* <h2 className="text-lg font-semibold">Menu</h2> */}
             <nav className="flex flex-col space-y-4">
               {navItems.map((item, idx) => {
                 const isActive = pathname === item.href;
@@ -47,7 +46,6 @@ export default function MobileMenu({
                     }`}
                     onClick={() => setIsOpen(false)}
                   >
-                    {/* <item.icon className="w-4 h-4 mr-2" /> */}
                     {item.label}
                   </Link>
                 );

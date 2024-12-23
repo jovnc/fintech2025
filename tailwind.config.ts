@@ -15,6 +15,8 @@ export default {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       fontSize: {
+        "2xs": "0.6rem",
+        xs: "0.7rem",
         sm: "1rem",
         base: "1.5rem",
         xl: "1.7rem",

@@ -32,12 +32,10 @@ export function ChatComponent() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             transition={{ duration: 0.2 }}
-            className="bg-white rounded-lg shadow-lg w-80 h-96 flex flex-col"
+            className="bg-card rounded-lg shadow-lg w-80 h-96 flex flex-col"
           >
             <div className="flex justify-between items-center p-4 border-b">
-              <h2 className="text-lg font-semibold text-primary-foreground">
-                Chat
-              </h2>
+              <h2 className="text-lg font-semibold">Chat</h2>
               <Button
                 variant="ghost"
                 size="icon"
