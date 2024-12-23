@@ -1,18 +1,18 @@
 import { useDisconnect } from "wagmi";
 import { Button } from "../ui/button";
-import { MetamaskIcon } from "./MetamaskIcon";
+import { Wallet } from "lucide-react";
 
 export function DisconnectWalletButton() {
   const { disconnect } = useDisconnect();
 
   return (
     <Button
-      variant="ghost"
+      variant="profile"
       className="w-full"
       onClick={() => disconnect()}
       size={"sm"}
     >
-      <MetamaskIcon className="mr-2" />
+      <Wallet className="mr-2 h-4 w-4" />
       Disconnect
     </Button>
   );

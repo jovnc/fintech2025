@@ -1,15 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  ChevronUp,
-  ChevronDown,
-  LayoutGrid,
-  User,
-  Sun,
-  LogOut,
-  Wallet,
-} from "lucide-react";
+import { ChevronUp, ChevronDown, Wallet } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -32,6 +24,15 @@ interface ProfileMenuProps {
 export function ProfileMenu({ username, avatarUrl }: ProfileMenuProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const { address, isConnected } = useAccount();
+  const [hydrated, setHydrated] = React.useState(false);
+
+  React.useEffect(() => {
+    setHydrated(true); // Mark the component as hydrated after mounting
+  }, []);
+
+  if (!hydrated) return null;
+
+  const truncatedAddress = address?.slice(0, 4);
 
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
@@ -43,7 +44,7 @@ export function ProfileMenu({ username, avatarUrl }: ProfileMenuProps) {
         <div className="flex flex-col items-start">
           <span className="text-xs font-medium">{username}</span>
           {isConnected && (
-            <span className="text-2xs">{address?.slice(0, 4)}...</span>
+            <span className="text-2xs">{truncatedAddress}...</span>
           )}
           {!isConnected && <span className="text-2xs">No wallet</span>}
         </div>

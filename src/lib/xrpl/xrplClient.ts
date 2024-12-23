@@ -2,13 +2,15 @@ import { Client } from "xrpl";
 
 let client: Client;
 
-const networks = {
-  testnet: "wss://s.altnet.rippletest.net:51233",
-};
+export enum Networks {
+  Testnet = "wss://s.altnet.rippletest.net:51233",
+  Devnet = "wss://s.devnet.rippletest.net:51233",
+  Sidechain = "wss://sidechain-net2.devnet.rippletest.net:51233/",
+}
 
-export function getClient() {
+export function getClient(network: Networks): Client {
   if (!client) {
-    client = new Client(networks.testnet);
+    client = new Client(network);
   }
   return client;
 }

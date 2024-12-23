@@ -1,3 +1,4 @@
+import TestButton from "@/components/xrpl/TestButton";
 import Image from "next/image";
 
 export default async function page() {
@@ -15,6 +16,7 @@ export default async function page() {
           credits? Our platform allows you to easily exchange, share, or give
           back, ensuring no credit ever goes to waste.
         </div>
+        <TestButton />
         <div className="flex justify-center gap-x-12 py-2">
           <div className="flex flex-col justify-center">
             <Image

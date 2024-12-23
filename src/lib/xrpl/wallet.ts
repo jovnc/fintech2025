@@ -1,12 +1,12 @@
 import xrpl from "xrpl";
 import db from "../prisma/prisma";
-import { getClient } from "./xrplClient";
+import { getClient, Networks } from "./xrplClient";
 
 // Generate a new wallet
 export const createWallet = async () => {
   try {
     // 1. connect to XRPL testnet
-    const client = getClient();
+    const client = getClient(Networks.Devnet);
     await client.connect();
 
     // 2. Generate a new wallet
@@ -34,7 +34,7 @@ export const createWallet = async () => {
 export const checkWalletBalance = async (address: string) => {
   try {
     // 1. connect to XRPL testnet
-    const client = getClient();
+    const client = getClient(Networks.Devnet);
     await client.connect();
 
     // 2. Get the balance of the wallet
