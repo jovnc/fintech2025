@@ -18,6 +18,7 @@ const buttonVariants = cva(
         ghost: "hover:bg-muted",
         link: "text-primary underline-offset-4 hover:underline",
         profile: "hover:bg-muted justify-start",
+        success: "bg-success text-success-foreground hover:bg-green-500",
       },
       size: {
         default: "h-10 px-4 py-2",

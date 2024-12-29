@@ -1,11 +1,8 @@
 import { Progress } from "@/components/ui/progress";
 
-interface CommunityProgressProps {
-  current: number;
-  goal: number;
-}
-
-export function CommunityProgress({ current, goal }: CommunityProgressProps) {
+export function CommunityProgress() {
+  const current = 1000000;
+  const goal = 5000000;
   const percentage = Math.min((current / goal) * 100, 100);
 
   return (

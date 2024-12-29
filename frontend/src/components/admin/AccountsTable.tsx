@@ -1,6 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import * as React from "react";
+import {
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { ArrowUpDown, ChevronDown } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -9,116 +31,191 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 interface Account {
-  id: number;
-  name: string;
-  email: string;
-  diningCredits: number;
-  breakfastCredits: number;
+  id: string;
+  name: string | null;
+  email: string | null;
+  wallet: string | null;
 }
 
 interface AccountsTableProps {
-  accounts: Account[];
+  users: Account[] | [];
 }
 
-export function AccountsTable({ accounts }: AccountsTableProps) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+export const columns: ColumnDef<Account>[] = [
+  {
+    accessorKey: "name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Name
+          <ArrowUpDown />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div>{row.getValue("name")}</div>,
+  },
+  {
+    accessorKey: "email",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Email
+          <ArrowUpDown />
+        </Button>
+      );
+    },
+    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
+  },
+  {
+    accessorKey: "wallet",
+    header: () => <div className="text-right">Wallet Public Address</div>,
+    cell: ({ row }) => <div>{row.getValue("wallet")}</div>,
+  },
+];
 
-  const filteredAccounts = accounts.filter(
-    (account) =>
-      account.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      account.email.toLowerCase().includes(searchTerm.toLowerCase())
+export function AccountsTable({ users }: AccountsTableProps) {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
   );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
 
-  const totalPages = Math.ceil(filteredAccounts.length / pageSize);
-  const startIndex = (currentPage - 1) * pageSize;
-  const endIndex = startIndex + pageSize;
-  const currentAccounts = filteredAccounts.slice(startIndex, endIndex);
+  const table = useReactTable({
+    data: users,
+    columns,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility,
+      rowSelection,
+    },
+  });
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-row justify-between items-center gap-4">
+    <div className="w-full">
+      <div className="flex items-center py-4">
         <Input
-          type="text"
-          placeholder="Search accounts..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="max-w-sm text-sm"
+          placeholder="Filter emails..."
+          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("email")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
         />
-        <Select
-          value={pageSize.toString()}
-          onValueChange={(value) => setPageSize(Number(value))}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Rows per page" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="10">10 rows</SelectItem>
-            <SelectItem value="20">20 rows</SelectItem>
-            <SelectItem value="50">50 rows</SelectItem>
-          </SelectContent>
-        </Select>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="ml-auto">
+              Columns <ChevronDown />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {table
+              .getAllColumns()
+              .filter((column) => column.getCanHide())
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) =>
+                      column.toggleVisibility(!!value)
+                    }
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead className="w-[200px]">Name</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead className="text-right">Dining Credits</TableHead>
-              <TableHead className="text-right">Breakfast Credits</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {currentAccounts.map((account) => (
-              <TableRow key={account.id}>
-                <TableCell className="font-medium">{account.name}</TableCell>
-                <TableCell>{account.email}</TableCell>
-                <TableCell className="text-right">
-                  {account.diningCredits}
-                </TableCell>
-                <TableCell className="text-right">
-                  {account.breakfastCredits}
-                </TableCell>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                    </TableHead>
+                  );
+                })}
               </TableRow>
             ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-muted-foreground">
-          Showing {startIndex + 1} to{" "}
-          {Math.min(endIndex, filteredAccounts.length)} of{" "}
-          {filteredAccounts.length} entries
-        </p>
+      <div className="flex items-center justify-end space-x-2 py-4">
+        <div className="flex-1 text-sm text-muted-foreground">
+          {table.getFilteredSelectedRowModel().rows.length} of{" "}
+          {table.getFilteredRowModel().rows.length} row(s) selected.
+        </div>
         <div className="space-x-2">
           <Button
             variant="outline"
             size="sm"
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            disabled={currentPage === 1}
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
           >
             Previous
           </Button>
           <Button
             variant="outline"
             size="sm"
-            onClick={() =>
-              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-            }
-            disabled={currentPage === totalPages}
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
           >
             Next
           </Button>

@@ -1,4 +1,6 @@
 import xrpl, {
+  Amount,
+  convertStringToHex,
   CreatedNode,
   TransactionMetadataBase,
   Wallet,
@@ -27,14 +29,20 @@ export async function bridgeXRP() {
     await issuingChainClient.connect();
 
     // Create a wallet and fund it using the XRP faucet on Devnet.
-    const lockingChainWallet = (await lockingChainClient.fundWallet()).wallet;
+    const lockingChainWallet = xrpl.Wallet.fromSeed(
+      "sEdSSJDxLYNSsBx8TJk8vdvDY8McWSH"
+    );
+    await lockingChainClient.fundWallet(lockingChainWallet);
 
-    console.log("Locking chain wallet", lockingChainWallet.address);
+    console.log(lockingChainWallet);
 
     // Generate a wallet to create and fund on the issuing chain.
-    const issuingChainWallet = Wallet.fromSeed(
-      "sEdS4qNAE9EovNh3mKhT8gYoxThGduK"
+    const issuingChainWallet = xrpl.Wallet.fromSeed(
+      "sEdTmKVqXzPsvgD87b9rRU9mwgunKhf"
     );
+    console.log(convertStringToHex(issuingChainWallet.address));
+    await issuingChainClient.fundWallet(issuingChainWallet);
+    console.log(issuingChainWallet);
 
     // Create a wallet on the issuing chain and fund it using the XRP faucet on Devnet.
     const createwallet_issuingchain = await lockingChainClient.submitAndWait(
@@ -50,7 +58,7 @@ export async function bridgeXRP() {
     );
     console.log(createwallet_issuingchain);
 
-    // Create claim ID
+    // // Create claim ID
     const createclaim = await issuingChainClient.submitAndWait(
       {
         TransactionType: "XChainCreateClaimID",
@@ -100,19 +108,19 @@ export async function bridgeXRP() {
 
     console.log(xchaincommit);
 
-    const xchainclaim = await issuingChainClient.submitAndWait(
-      {
-        TransactionType: "XChainClaim",
-        Account: issuingChainWallet.address,
-        Destination: issuingChainWallet.address,
-        Amount: "10000",
-        XChainBridge: xchainbridge as XChainBridge,
-        XChainClaimID: claimID as string,
-      },
-      { autofill: true, wallet: issuingChainWallet }
-    );
+    // const xchainclaim = await issuingChainClient.submitAndWait(
+    //   {
+    //     TransactionType: "XChainClaim",
+    //     Account: issuingChainWallet.address,
+    //     Destination: issuingChainWallet.address,
+    //     Amount: "10000",
+    //     XChainBridge: xchainbridge as XChainBridge,
+    //     XChainClaimID: claimID as string,
+    //   },
+    //   { autofill: true, wallet: issuingChainWallet }
+    // );
 
-    console.log(xchainclaim);
+    // console.log(xchainclaim);
     console.log("Bridge successful");
     await lockingChainClient.disconnect();
     await issuingChainClient.disconnect();

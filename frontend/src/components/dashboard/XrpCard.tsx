@@ -1,19 +1,34 @@
 "use client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
-import { Button } from "../ui/button";
+import { Card } from "@/components/ui/card";
+import { convertDropsToXRP } from "@/lib/wagmi/utils";
+import { useAccount, useBalance } from "wagmi";
+import TopUpXRP from "./TopUpXRP";
 
-interface XrpCardProps {
-  amount: number;
-}
+export function XrpCard() {
+  // Get the connected wallet's address
+  const { address, isConnected } = useAccount();
 
-export function XrpCard({ amount }: XrpCardProps) {
+  // Get the balance of the connected wallet
+  const {
+    data: balance,
+    isLoading: isBalanceLoading,
+    refetch,
+  } = useBalance({
+    address,
+  });
+
+  const converted = balance?.value ? convertDropsToXRP(balance.value) : 0;
+
   return (
-    <Card className="bg-gradient-to-br grid sm:grid-cols-2 from-orange-200 to-orange-300 p-5">
-      <div className="justify-center flex flex-col">
-        <CardTitle className="text-lg font-medium">XRP Balance</CardTitle>
-
-        <div className="text-2xl font-bold">{amount} XRP</div>
+    <Card className="w-full bg-primary/10 p-5 sm:grid-cols-2">
+      <div className="flex w-full flex-row justify-between">
+        <p className="text-md w-full font-medium">XRP Balance</p>
+        <div className="flex w-full flex-col items-end gap-2">
+          <p className="w-full text-end">
+            {converted} {balance?.symbol}
+          </p>
+          <TopUpXRP refetch={refetch} />
+        </div>
       </div>
     </Card>
   );

@@ -55,10 +55,6 @@ export function ProfileMenu({ username, avatarUrl }: ProfileMenuProps) {
         )}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56 flex flex-col gap-2">
-        {/* <DropdownMenuItem className="hover:cursor-pointer">
-          <User className="mr-2 h-4 w-4" />
-          <span>My Profile</span>
-        </DropdownMenuItem> */}
         <DropdownMenuItem
           className="hover:cursor-pointer"
           onSelect={(e) => e.preventDefault()}

@@ -3,6 +3,7 @@ import Image from "next/image";
 import MobileMenu from "./MobileMenu";
 import { auth } from "@/auth";
 import DesktopMenu from "./DesktopMenu";
+import { ProfileMenu } from "./ProfileMenu";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -24,18 +25,25 @@ export async function Navbar({}) {
               <Image src="/logo.png" alt="Logo" width={40} height={40} />
             </Link>
           </div>
+          <div className="flex flex-row items-center space-x-4">
+            {/* Desktop menu */}
+            {session && <DesktopMenu navItems={navItems} session={session} />}
+            {!session && (
+              <DesktopMenu navItems={[navItems[0]]} session={session} />
+            )}
 
-          {/* Desktop menu */}
-          {session && <DesktopMenu navItems={navItems} session={session} />}
-          {!session && (
-            <DesktopMenu navItems={[navItems[0]]} session={session} />
-          )}
-
-          {/* Mobile menu button */}
-          {session && <MobileMenu navItems={navItems} session={session} />}
-          {!session && (
-            <MobileMenu navItems={[navItems[0]]} session={session} />
-          )}
+            {/* Mobile menu button */}
+            {session?.user && (
+              <ProfileMenu
+                username={session?.user?.name || ""}
+                avatarUrl={session?.user?.image || ""}
+              />
+            )}
+            {session && <MobileMenu navItems={navItems} session={session} />}
+            {!session && (
+              <MobileMenu navItems={[navItems[0]]} session={session} />
+            )}
+          </div>
         </div>
       </div>
     </nav>

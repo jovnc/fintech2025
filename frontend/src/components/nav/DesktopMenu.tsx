@@ -31,7 +31,12 @@ export default function DesktopMenu({
       })}
       <DarkModeToggle />
       {!session?.user && <LoginModal />}
-      {session?.user && <ProfileMenu username="sdsd" avatarUrl="" />}
+      {/* {session?.user && (
+        <ProfileMenu
+          username={session.user.name}
+          avatarUrl={session.user.image}
+        />
+      )} */}
     </div>
   );
 }

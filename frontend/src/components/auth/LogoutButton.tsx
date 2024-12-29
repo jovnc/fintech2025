@@ -7,8 +7,8 @@ import { useDisconnect } from "wagmi";
 export default function LogoutButton() {
   const { disconnect } = useDisconnect();
   const handleLogout = async () => {
-    await logOut();
     disconnect();
+    await logOut();
   };
   return (
     <form action={handleLogout} className="flex flex-row items-center gap-2">

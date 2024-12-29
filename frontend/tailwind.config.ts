@@ -17,13 +17,14 @@ export default {
       fontSize: {
         "2xs": "0.6rem",
         xs: "0.7rem",
-        sm: "1rem",
-        base: "1.5rem",
-        xl: "1.7rem",
-        "2xl": "2rem",
-        "3xl": "2.5rem",
-        "4xl": "3rem",
-        "5xl": "3.5rem",
+        sm: "0.85rem",
+        base: "1rem",
+        lg: "1.2rem",
+        xl: "1.4rem",
+        "2xl": "1.8rem",
+        "3xl": "2rem",
+        "4xl": "2.5rem",
+        "5xl": "3rem",
       },
       colors: {
         background: "hsl(var(--background))",
@@ -56,6 +57,10 @@ export default {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -71,6 +76,15 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      keyframes: {
+        "caret-blink": {
+          "0%,70%,100%": { opacity: "1" },
+          "20%,50%": { opacity: "0" },
+        },
+      },
+      animation: {
+        "caret-blink": "caret-blink 1.25s ease-out infinite",
       },
     },
   },

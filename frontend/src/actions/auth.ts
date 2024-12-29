@@ -11,21 +11,3 @@ export async function login() {
     redirectTo: "/dashboard",
   });
 }
-
-export async function loginWithMetaMask({
-  message,
-  signature,
-}: {
-  message: string;
-  signature: string;
-}) {
-  try {
-    await signIn("MetaMask", {
-      message: message,
-      signature: signature,
-      redirectTo: "/",
-    });
-  } catch (error) {
-    console.error("Failed to login with MetaMask", error);
-  }
-}

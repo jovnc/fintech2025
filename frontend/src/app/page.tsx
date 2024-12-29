@@ -1,4 +1,3 @@
-import TestButton from "@/components/xrpl/TestButton";
 import Image from "next/image";
 
 export default async function page() {
@@ -11,12 +10,11 @@ export default async function page() {
         <div className="font-bold text-center text-3xl text-primary">
           A better way to utilise your dining credits.
         </div>
-        <div className="text-center  text-lg">
+        <div className="text-center text-gray-600 text-md">
           Staying on campus but struggling to make the most of your dining
           credits? Our platform allows you to easily exchange, share, or give
           back, ensuring no credit ever goes to waste.
         </div>
-        <TestButton />
         <div className="flex justify-center gap-x-12 py-2">
           <div className="flex flex-col justify-center">
             <Image
@@ -29,7 +27,9 @@ export default async function page() {
             <div className="text-center text-xl font-semibold text-primary">
               Buy
             </div>
-            <div className="text-center text-lg">credits from others</div>
+            <div className="text-center text-gray-600 text-md">
+              credits from others
+            </div>
           </div>
 
           <div className="flex flex-col justify-center">
@@ -43,7 +43,9 @@ export default async function page() {
             <div className="text-center text-xl font-semibold text-primary">
               Sell
             </div>
-            <div className="text-center text-lg">unused credits</div>
+            <div className="text-center text-gray-600 text-md">
+              unused credits
+            </div>
           </div>
           <div className="flex flex-col justify-center">
             <Image
@@ -56,7 +58,9 @@ export default async function page() {
             <div className="text-center text-xl font-semibold text-primary">
               Donate
             </div>
-            <div className="text-center text-lg">credits to charity</div>
+            <div className="text-center text-gray-600 text-md">
+              credits to charity
+            </div>
           </div>
         </div>
       </div>

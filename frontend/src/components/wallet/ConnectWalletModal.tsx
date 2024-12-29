@@ -45,16 +45,26 @@ export function ConnectWalletModal({
               <Wallet className="mr-2 h-4 w-4" />
               Custodial Wallet
             </Button>
-            <div className="text-center text-xs">
-              This will create an EOA wallet for you to use on this site. This
-              will generate a new wallet for you to use on this site if you
-              havent already.
+            <div className="flex flex-col text-center text-xs gap-4">
+              <p>
+                This will create an EOA wallet for you to use on this site. This
+                will generate a new wallet for you to use on this site if you
+                havent already.
+              </p>
+              <p className="text-red-500 text-2xs">
+                Note: if you have previously connected to a wallet, not
+                available if you previously connected to Metamask
+              </p>
             </div>
           </div>
           <div className="flex flex-col gap-4">
             <MetamaskLoginButton setOpen={setOpen} />
-            <div className="text-center text-xs">
-              Connect to your existing Metamask wallet.
+            <div className="flex flex-col text-center text-xs gap-4">
+              <p>Connect to your existing Metamask wallet.</p>
+              <p className="text-red-500 text-2xs">
+                Note: if you have previously connected to a wallet, please use
+                the same wallet
+              </p>
             </div>
           </div>
         </div>

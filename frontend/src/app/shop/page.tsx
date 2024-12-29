@@ -1,22 +1,21 @@
-import { DININGPriceChart } from "@/components/shop/DININGPriceChart";
-import { SalesVolume } from "@/components/shop/SalesVolume";
-import { TokenListingTable } from "@/components/shop/TokenListingTable";
+import BreakfastCreditsCard from "@/components/shop/BreakfastCreditsCard";
 
 export default function page() {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2">
+    <div className="flex h-full w-full flex-col gap-4 py-4">
+      <h1 className="justify-self-center text-center text-2xl font-bold">
+        Trade your credits
+      </h1>
+      <h2 className="justify-self-center px-10 text-center text-xs text-muted-foreground">
+        Have too much credits or looking to buy some cheap meals? This is the
+        right place for you to trade credits!
+      </h2>
       {/* Breakfast Credits */}
-      <div className="flex flex-col gap-4 p-4">
-        <DININGPriceChart />
-        {/* <SalesVolume /> */}
-        <TokenListingTable />
-      </div>
+      <div className="flex flex-col gap-4 bg-primary/5 p-8">
+        <h3 className="text-lg font-bold">Breakfast Credits (BFAST)</h3>
+        <BreakfastCreditsCard />
 
-      {/* Dinner Credits */}
-      <div className="flex flex-col gap-4 p-4">
-        <DININGPriceChart />
-        {/* <SalesVolume /> */}
-        <TokenListingTable />
+        {/* Dinner Credits */}
       </div>
     </div>
   );

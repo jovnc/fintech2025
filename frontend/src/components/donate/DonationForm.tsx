@@ -1,43 +1,54 @@
 "use client";
 
-import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
-import { Label } from "../ui/label";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+
+const donateFormSchema = z.object({
+  credits: z.number().int().positive("Credits must be a positive integer"),
+});
 
 export function DonationForm() {
-  const [credits, setCredits] = useState("");
+  const form = useForm<z.infer<typeof donateFormSchema>>({
+    resolver: zodResolver(donateFormSchema),
+    defaultValues: {
+      credits: 0,
+    },
+  });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    // Here you would typically send the donation to your backend
-    // For now, we'll just show a success message
-    toast({
-      title: "Donation Successful",
-      description: `Thank you for donating ${credits} dining credits!`,
-    });
-    setCredits("");
-  };
+  const onSubmit = async () => {};
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <Label htmlFor="credits">Dining Credits to Donate</Label>
-        <Input
-          id="credits"
-          type="number"
-          value={credits}
-          onChange={(e) => setCredits(e.target.value)}
-          placeholder="Enter amount"
-          min="1"
-          required
-          className="mt-1"
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="credits"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Amount</FormLabel>
+              <FormControl>
+                <Input type="number" placeholder="0" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
-      <Button type="submit" className="w-full">
-        Donate Credits
-      </Button>
-    </form>
+        <Button type="submit" className="w-full">
+          Donate
+        </Button>
+      </form>
+    </Form>
   );
 }

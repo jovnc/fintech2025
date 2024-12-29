@@ -1,11 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
+import { ChartContainer, ChartTooltip } from "@/components/ui/chart";
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 interface UsageChartsProps {
@@ -111,7 +107,6 @@ export function UsageCharts({ data }: UsageChartsProps) {
                   interval="preserveStartEnd"
                   tick={{ fontSize: 12 }}
                   tickFormatter={(value) => {
-                    console.log(value);
                     const date = new Date(value);
                     return `${date.getDate()}/${date.getMonth()}`;
                   }}

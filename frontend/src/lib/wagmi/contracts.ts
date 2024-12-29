@@ -1,32 +1,17 @@
-const diningTokenAbi = [
-  {
-    inputs: [
-      { internalType: "address", name: "to", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
-    ],
-    name: "transferCredits",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "totalSupply",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-];
+import { breakfastTokenAbi, dinnerTokenAbi } from "./abi";
 
-export const wagmiContractConfig = {
-  address: "0x2Ee59426689B710c7369C67E237bD5D66f55A91f",
-  abi: [
-    {
-      type: "function",
-      name: "totalSupply",
-      stateMutability: "view",
-      inputs: [],
-      outputs: [{ name: "supply", type: "uint256" }],
-    },
-  ],
+export const breakfastContractAddress =
+  "0xac7F6648160C0bB61314C0f60E4080215B4E394d";
+
+export const breakfastContractConfig = {
+  address: breakfastContractAddress,
+  abi: breakfastTokenAbi,
+} as const;
+
+export const dinnerContractAddress =
+  "0x0e2204BD123b8A2440B0db4082643F16311E0Ae1";
+
+export const dinnerContractConfig = {
+  address: dinnerContractAddress,
+  abi: dinnerTokenAbi,
 } as const;
