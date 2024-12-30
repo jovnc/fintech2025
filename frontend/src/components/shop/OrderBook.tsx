@@ -29,7 +29,7 @@ export default function OrderBook({
               <div
                 key={id}
                 className={
-                  "grid w-full grid-cols-2 gap-4 p-3 text-xs transition-colors hover:bg-muted-foreground/50"
+                  "grid w-full grid-cols-2 gap-4 p-3 text-xs transition-colors hover:bg-muted-foreground/5"
                 }
               >
                 <div className="text-center">{order.price}</div>

@@ -14,6 +14,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { ArrowUpDown, ChevronDown } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -31,6 +32,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { DistributeTabs } from "./DistributeTabs";
 
 interface Account {
   id: string;
@@ -44,6 +46,28 @@ interface AccountsTableProps {
 }
 
 export const columns: ColumnDef<Account>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -89,6 +113,10 @@ export function AccountsTable({ users }: AccountsTableProps) {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
+  const selectedRows = Object.keys(rowSelection);
+  const selectedUserWallets = selectedRows.map(
+    (id) => users[Number(id)]?.wallet,
+  );
 
   const table = useReactTable({
     data: users,
@@ -221,6 +249,7 @@ export function AccountsTable({ users }: AccountsTableProps) {
           </Button>
         </div>
       </div>
+      <DistributeTabs selectedUserWallets={selectedUserWallets} />
     </div>
   );
 }

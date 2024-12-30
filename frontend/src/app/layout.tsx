@@ -38,7 +38,7 @@ export default function RootLayout({
             <main className="flex-grow">{children}</main>
             <Toaster />
             <ChatComponent />
-            <Footer />
+            {/* <Footer /> */}
           </div>
         </Providers>
       </body>
