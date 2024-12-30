@@ -76,7 +76,7 @@ export const columns: ColumnDef<Account>[] = [
   },
   {
     accessorKey: "wallet",
-    header: () => <div className="text-right">Wallet Public Address</div>,
+    header: () => <div className="text-left">Wallet Public Address</div>,
     cell: ({ row }) => <div>{row.getValue("wallet")}</div>,
   },
 ];

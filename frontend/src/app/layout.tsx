@@ -3,12 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Navbar } from "@/components/nav/NavBar";
-import { SessionProvider } from "next-auth/react";
 import { ChatComponent } from "@/components/chat/ChatComponent";
-import { ThemeProvider } from "@/components/dark-mode/theme-provider";
-import { WagmiProvider } from "wagmi";
-import { config } from "@/lib/wagmi/config";
 import { Providers } from "./providers";
+import Footer from "@/components/nav/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,10 +33,13 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
-          <Navbar />
-          {children}
-          <Toaster />
-          <ChatComponent />
+          <div className="flex min-h-screen flex-col">
+            <Navbar />
+            <main className="flex-grow">{children}</main>
+            <Toaster />
+            <ChatComponent />
+            <Footer />
+          </div>
         </Providers>
       </body>
     </html>

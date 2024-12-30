@@ -28,8 +28,8 @@ export default function BuyForm({
   const currPrice = data.length > 0 ? data[0].price : 0;
   const currAmount = data.length > 0 ? data[0].amount : 0;
   return (
-    <div className="space-y-4 mt-4">
-      <p className="text-muted-foreground text-xs">
+    <div className="mt-4 space-y-4">
+      <p className="text-xs text-muted-foreground">
         Note: currently, our system only supports{" "}
         <span className="font-bold">MARKET</span> orders, future support for{" "}
         <span className="font-bold">LIMIT</span> orders is expected
@@ -77,10 +77,11 @@ function BuyFormComponent({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
         <div className="flex flex-col items-center justify-center">
           <p>Current market price: </p>
-          <p className="text-2xl font-bold">{price} XRP</p>
+          {price === 0 && <p className="text-2xl font-bold">None available</p>}
+          {price !== 0 && <p className="text-2xl font-bold">{price} XRP</p>}
         </div>
 
         <FormField
@@ -99,12 +100,12 @@ function BuyFormComponent({
                   {...field}
                   onChange={(e) =>
                     field.onChange(
-                      e.target.value ? parseInt(e.target.value) : ""
+                      e.target.value ? parseInt(e.target.value) : "",
                     )
                   }
                 />
               </FormControl>
-              <p className="text-muted-foreground text-xs">
+              <p className="text-xs text-muted-foreground">
                 Max: {amount.toFixed(0)} {currency}
               </p>
               <FormMessage className="text-xs" />
@@ -121,7 +122,12 @@ function BuyFormComponent({
           </div>
         </div>
 
-        <Button type="submit" className="w-full" variant={"success"}>
+        <Button
+          type="submit"
+          className="w-full"
+          variant={"success"}
+          disabled={price === 0}
+        >
           Buy {currency}
         </Button>
       </form>

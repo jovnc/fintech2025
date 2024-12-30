@@ -26,7 +26,7 @@ export default function CreditsDisplay() {
   const numberDinnerCredits = Number(dinnerResult.data) / 10 ** 18;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full items-center justify-center">
+    <div className="grid w-full grid-cols-1 items-center justify-center gap-4 md:grid-cols-2">
       <CreditsCard
         title="Breakfast"
         amount={numberBreakfastCredits || 0}

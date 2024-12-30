@@ -1,7 +1,7 @@
-import { breakfastTokenAbi, dinnerTokenAbi } from "./abi";
+import { breakfastTokenAbi, dinnerTokenAbi, vaultAbi } from "./abi";
 
 export const breakfastContractAddress =
-  "0xac7F6648160C0bB61314C0f60E4080215B4E394d";
+  "0x3B5D3C1C8680546dE442084109c5a28892805eB7";
 
 export const breakfastContractConfig = {
   address: breakfastContractAddress,
@@ -9,9 +9,17 @@ export const breakfastContractConfig = {
 } as const;
 
 export const dinnerContractAddress =
-  "0x0e2204BD123b8A2440B0db4082643F16311E0Ae1";
+  "0xA44832833589c503CBAAc7b033Bb85463B9F7c93";
 
 export const dinnerContractConfig = {
   address: dinnerContractAddress,
   abi: dinnerTokenAbi,
+} as const;
+
+export const vaultContractAddress =
+  "0x584a4A7F8401f9955323d29D120fd418AB87CA00";
+
+export const vaultContractConfig = {
+  address: vaultContractAddress,
+  abi: vaultAbi,
 } as const;

@@ -13,6 +13,7 @@ import OTPForm from "./OTPForm";
 import { useState } from "react";
 import SuccessClaimScreen from "./SuccessClaimScreen";
 import { useWriteContract } from "wagmi";
+import { ArrowRight } from "lucide-react";
 
 export function ClaimCreditModal({ type }: { type: string }) {
   const [isSuccess, setIsSuccess] = useState(false);
@@ -21,7 +22,10 @@ export function ClaimCreditModal({ type }: { type: string }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Claim</Button>
+        <Button className="w-1/2">
+          Claim
+          <ArrowRight />
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

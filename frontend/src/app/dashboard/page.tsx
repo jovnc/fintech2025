@@ -3,19 +3,19 @@ import { XrpCard } from "@/components/dashboard/XrpCard";
 
 export default async function Dashboard() {
   return (
-    <div className="flex flex-col mx-20 items-center justify-center my-10">
-      <div className="flex flex-col justify-between mb-8">
-        <h1 className="text-3xl font-bold text-center">
+    <div className="mx-20 my-10 flex flex-col items-center justify-center gap-4">
+      <div className="mb-8 flex flex-col justify-between">
+        <h1 className="text-center text-3xl font-bold">
           Welcome to FinishYourCredits!
         </h1>
-        <h3 className="text-md text-gray-500 text-center">
+        <h3 className="text-md text-center text-gray-500">
           A better way to use your credits.
         </h3>
       </div>
       <CreditsDisplay />
-      <div className="my-8 w-full">
-        <XrpCard />
-      </div>
+      <XrpCard />
+
+      {/* Active Sell Orders (allow modification - remove / update) */}
     </div>
   );
 }

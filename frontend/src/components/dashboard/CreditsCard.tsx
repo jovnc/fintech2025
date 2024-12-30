@@ -1,7 +1,9 @@
 "use client";
-import { Card, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import Image from "next/image";
 import { ClaimCreditModal } from "./ClaimCreditsModal";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 interface CreditCardProps {
   title: string;
@@ -11,21 +13,21 @@ interface CreditCardProps {
 
 export function CreditsCard({ title, amount, imgSrc }: CreditCardProps) {
   return (
-    <Card className="grid grid-cols-2 bg-primary/10 p-5">
-      <div className="flex flex-col justify-center gap-2">
-        <CardTitle className="text-sm font-medium">{title} Credits</CardTitle>
-        <div className="text-xl font-bold">{amount}</div>
-        <ClaimCreditModal type={title} />
-      </div>
-
-      <div className="flex justify-end">
+    <Card className="flex w-full flex-col items-center justify-center gap-4 bg-primary/10 p-5 sm:grid-cols-2">
+      <div className="flex flex-row items-center justify-center gap-2">
         <Image
           className="object-fill"
           src={imgSrc}
-          width={120}
-          height={120}
+          width={30}
+          height={30}
           alt="food image"
         />
+        <p className="text-md font-bold">{title} Credits</p>
+      </div>
+
+      <div className="text-center text-3xl font-bold">{amount}</div>
+      <div className="flex w-full flex-row items-center justify-center gap-4">
+        <ClaimCreditModal type={title} />
       </div>
     </Card>
   );

@@ -2,7 +2,7 @@ import BreakfastCreditsCard from "@/components/shop/BreakfastCreditsCard";
 
 export default function page() {
   return (
-    <div className="flex h-full w-full flex-col gap-4 py-4">
+    <div className="flex h-full w-full flex-col gap-4 p-4">
       <h1 className="justify-self-center text-center text-2xl font-bold">
         Trade your credits
       </h1>
@@ -11,11 +11,14 @@ export default function page() {
         right place for you to trade credits!
       </h2>
       {/* Breakfast Credits */}
-      <div className="flex flex-col gap-4 bg-primary/5 p-8">
+      <div className="flex flex-col gap-4 rounded-lg bg-primary/5 p-8">
         <h3 className="text-lg font-bold">Breakfast Credits (BFAST)</h3>
         <BreakfastCreditsCard />
+      </div>
 
-        {/* Dinner Credits */}
+      <div className="flex flex-col gap-4 rounded-lg bg-primary/5 p-8">
+        <h3 className="text-lg font-bold">Dinner Credits (DINNER)</h3>
+        <BreakfastCreditsCard />
       </div>
     </div>
   );
