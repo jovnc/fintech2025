@@ -1,23 +1,18 @@
-import { CommunityProgress } from "@/components/donate/CommunityProgress";
-import { DonationForm } from "@/components/donate/DonationForm";
-import React from "react";
+import DonationCards from "@/components/donate/DonationCards";
 
 export default async function page() {
   return (
-    <div className="container mx-auto px-4 py-8 w-full">
-      <div className="flex flex-col gap-4 w-full items-center justify-center mb-10">
-        <h1 className="text-3xl font-bold text-center">
+    <div className="mx-auto flex w-full flex-col gap-8 px-10 py-8">
+      <div className="mb-10 flex w-full flex-col items-center justify-center gap-4">
+        <h1 className="text-center text-3xl font-bold">
           Donate Your Unused Dining Credits
         </h1>
-        <p className="mb-4 text-muted-foreground text-center text-sm">
+        <p className="mb-4 text-center text-sm text-muted-foreground">
           Help your community by donating your unused dining credits. Every
           contribution makes a difference!
         </p>
       </div>
-      <div className="grid gap-16 md:grid-cols-2">
-        <DonationForm />
-        <CommunityProgress />
-      </div>
+      <DonationCards />
     </div>
   );
 }

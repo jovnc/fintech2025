@@ -1,8 +1,15 @@
+"use client";
 import { Progress } from "@/components/ui/progress";
 
-export function CommunityProgress() {
-  const current = 1000000;
-  const goal = 5000000;
+export function CommunityProgress({
+  currency,
+  donated,
+}: {
+  currency: string;
+  donated: number;
+}) {
+  const current = donated;
+  const goal = 100;
   const percentage = Math.min((current / goal) * 100, 100);
 
   return (
