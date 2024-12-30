@@ -19,7 +19,10 @@ import {
 } from "../ui/form";
 import { Button } from "../ui/button";
 import { toast } from "@/hooks/use-toast";
-import { breakfastContractConfig } from "@/lib/wagmi/contracts";
+import {
+  breakfastContractConfig,
+  dinnerContractConfig,
+} from "@/lib/wagmi/contracts";
 
 const OTPFormSchema = z.object({
   otp: z
@@ -31,9 +34,11 @@ const OTPFormSchema = z.object({
 export default function OTPForm({
   setIsSuccess,
   writeContractAsync,
+  type,
 }: {
   setIsSuccess: (value: boolean) => void;
   writeContractAsync: any;
+  type: string;
 }) {
   const form = useForm<z.infer<typeof OTPFormSchema>>({
     resolver: zodResolver(OTPFormSchema),
@@ -43,13 +48,34 @@ export default function OTPForm({
   });
 
   async function onSubmit(values: z.infer<typeof OTPFormSchema>) {
-    if (values.otp === "1234") {
-      const tx = await writeContractAsync({
-        ...breakfastContractConfig,
-        functionName: "claimDiningCredit",
-        args: [],
-      });
-      setIsSuccess(true);
+    if (values.otp === "1234" && type === "Breakfast") {
+      try {
+        await writeContractAsync({
+          ...breakfastContractConfig,
+          functionName: "claimDiningCredit",
+          args: [],
+        });
+        setIsSuccess(true);
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to claim credits. Please try again",
+        });
+      }
+    } else if (values.otp === "1234" && type === "Dinner") {
+      try {
+        await writeContractAsync({
+          ...dinnerContractConfig,
+          functionName: "claimDiningCredit",
+          args: [],
+        });
+        setIsSuccess(true);
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to claim credits. Please try again",
+        });
+      }
     } else {
       toast({
         title: "Invalid OTP",
@@ -62,7 +88,7 @@ export default function OTPForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-row gap-4 justify-center items-end"
+        className="flex flex-row items-end justify-center gap-4"
       >
         <FormField
           control={form.control}

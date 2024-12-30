@@ -16,15 +16,20 @@ export default function BreakfastCreditsCard() {
 
   // accumulate orders with the same price
   const orderBook = filteredData?.reduce(
-    (acc: { [key: number]: { price: number; amount: number } }, order) => {
+    (
+      acc: { [key: number]: { price: number; amount: number; order: any } },
+      order,
+    ) => {
       const price = bigIntToNumber(order.price);
       if (!acc[price]) {
         acc[price] = {
           price: price,
           amount: 0,
+          order: [],
         };
       }
       acc[price].amount += bigIntToNumber(order.amount);
+      acc[price].order.push([order.id, order.amount]);
       return acc;
     },
     {},
@@ -36,7 +41,7 @@ export default function BreakfastCreditsCard() {
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       <TradingPanel currency="BFAST" data={orderBookArray} />
-      <OrderBook data={orderBookArray} />
+      <OrderBook currency="BFAST" data={orderBookArray} />
     </div>
   );
 }

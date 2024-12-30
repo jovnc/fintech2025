@@ -9,66 +9,46 @@ contract Tradable {
         uint256 amount;
         uint256 price;
         bool active;
+        uint256 startTime;
     }
 
     SellOrder[] internal orders; // all orders
-    mapping(uint256 => SellOrder[]) internal ordersByPrice; // orders mapped to their prices
-    mapping(address => SellOrder[]) internal userOrders; // orders mapped to their seller address
 
-    event OrderPlaced(uint256 indexed id, address indexed seller, uint256 amount, uint256 price);
-    event Selled(uint256 indexed id, address indexed seller, address indexed buyer, uint256 amount, uint256 price);
-    event UpdatedOrderPrice(uint256 indexed id, uint256 newPrice);
-    event UpdatedOrderAmount(uint256 indexed id, uint256 newAmount);
+    error NotSeller();
+    error OrderDoesNotExist();
+
 
     constructor() {}
 
     function _placeOrder(uint256 amount, uint256 price) internal {
-        require(amount > 0, "Tradable: you can only place a sell order of a positive non null amount");
-        require(price > 0, "Trabable: you order token price must be postive and not null");
+        require(amount > 0 && price > 0, "Tradable: amount and price must be positive and not null");
         
         uint256 orderId = orders.length;
-
-         // Create a new order
-        SellOrder memory newOrder = SellOrder(orderId, msg.sender, amount, price, true);
-
-         // Store in the mapping by seller
-        userOrders[msg.sender].push(newOrder);
-
-        // Store in the mapping by price for sorted access (you can implement sorting here if needed)
-        ordersByPrice[price].push(newOrder);
+        SellOrder memory newOrder = SellOrder(orderId, msg.sender, amount, price, true, block.timestamp);
 
         orders.push(newOrder);
-        emit OrderPlaced(orderId, msg.sender, amount, price);
     }
 
     function _removeOrder(uint256 orderId) internal {
-        require(orders[orderId].seller == msg.sender, "Tradable: that order is not yours");
-        require(orders[orderId].active == true, "Tradable: order was already removed or fulfilled");
+        require(orders[orderId].seller == msg.sender && orders[orderId].active == true, "Tradable: that order is not yours or order was already fulfilled");
 
         orders[orderId].active = false;
     }
 
     function _updateOrderPrice(uint256 orderId, uint256 newPrice) internal {
-        require(orders[orderId].seller == msg.sender, "Tradable: that order is not yours");
-        require(orders[orderId].active == true, "Tradable: order was already removed or fulfilled");
-        require(newPrice > 0, "Trabable: you order token price must be postive and not null");
+        require(orders[orderId].seller == msg.sender && orders[orderId].active == true && newPrice > 0, "Tradable: that order is not yours, order was already fulfilled or price is invalid");
 
         orders[orderId].price = newPrice;
-
-        emit UpdatedOrderPrice(orderId, newPrice);
     }
 
     function _buyOrder(uint256 orderId, uint256 amount) internal {
-        require(orders[orderId].seller != msg.sender, "Tradable: you cannot buy your own order");
-        require(orders[orderId].active == true, "Tradable: order was already removed or fulfilled");
-        require(amount <= orders[orderId].amount, "Tradable: cannot buy amount greater than placed on order.");
+        require(orders[orderId].seller != msg.sender && orders[orderId].active == true && amount <= orders[orderId].amount, "Tradable: that order is not yours, order was already fulfilled or amount is invalid");
 
         orders[orderId].amount -= amount;
 
-        if (orders[orderId].amount == 0) orders[orderId].active = false;
-        else emit UpdatedOrderAmount(orderId, orders[orderId].amount);
-        
-        emit Selled(orderId, orders[orderId].seller, msg.sender, amount, orders[orderId].price);
+        if (orders[orderId].amount == 0) {
+            orders[orderId].active = false;
+        }
     }
 
     function _getOrder(uint256 orderId) internal view returns (SellOrder memory) {
@@ -80,7 +60,16 @@ contract Tradable {
     }
 
     function _listOrdersByUser(address user) internal view returns (SellOrder[] memory) {
-        return userOrders[user];
+        SellOrder[] memory userOrders;
+        uint256 count = 0;
+
+        for (uint256 i = 0; i < orders.length; i++) {
+            if (orders[i].seller == user) {
+                userOrders[count] = orders[i];
+                count++;
+            }
+        }
+        return userOrders;
     }
 
 }

@@ -33,11 +33,27 @@ export default function BreakfastCreditMintingForm() {
 
   async function onSubmit(values: z.infer<typeof mintFormSchema>) {
     try {
+      if (!isConnected) {
+        toast({
+          title: "Not connected",
+          description: "Please connect your wallet to mint tokens",
+        });
+        return;
+      }
+
+      if (address !== "0xF04bC8FdFC8b1c03Fa77885574Ae6Ea041E26bdc") {
+        toast({
+          title: "Unauthorized",
+          description: "Only the faucet wallet can mint tokens",
+        });
+        return;
+      }
+
       const mintAmount = Number(values.amount) * 10 ** 18;
       const res = await writeContractAsync({
         ...breakfastContractConfig,
         functionName: "mint",
-        args: [address as `0x${string}`, BigInt(mintAmount)],
+        args: [BigInt(mintAmount)],
       });
       toast({
         title: "Form successfully submitted",
@@ -56,7 +72,7 @@ export default function BreakfastCreditMintingForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="mx-auto max-w-3xl space-y-8 py-10"
+        className="mx-auto max-w-3xl space-y-8 p-6"
       >
         <FormField
           control={form.control}

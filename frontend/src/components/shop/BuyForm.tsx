@@ -12,10 +12,16 @@ import {
 } from "../ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { writeContract } from "@wagmi/core";
+import { config } from "@/lib/wagmi/config";
+import { breakfastContractConfig } from "@/lib/wagmi/contracts";
+import { toast } from "@/hooks/use-toast";
+import { bigIntToNumber } from "@/lib/utils";
 
 interface Order {
   price: number;
   amount: number;
+  order: any;
 }
 
 export default function BuyForm({
@@ -27,6 +33,8 @@ export default function BuyForm({
 }) {
   const currPrice = data.length > 0 ? data[0].price : 0;
   const currAmount = data.length > 0 ? data[0].amount : 0;
+  const currOrders = data.length > 0 ? data[0].order : [];
+
   return (
     <div className="mt-4 space-y-4">
       <p className="text-xs text-muted-foreground">
@@ -38,6 +46,7 @@ export default function BuyForm({
         currency={currency}
         price={currPrice}
         amount={currAmount}
+        orders={currOrders}
       />
     </div>
   );
@@ -47,10 +56,12 @@ function BuyFormComponent({
   currency,
   price,
   amount,
+  orders,
 }: {
   currency: string;
   price: number;
   amount: number;
+  orders: any;
 }) {
   const buyFormSchema = z.object({
     amount: z
@@ -71,8 +82,46 @@ function BuyFormComponent({
   const amountValue = watch("amount");
   const total = price * amountValue;
 
-  const onSubmit = (formData: z.infer<typeof buyFormSchema>) => {
-    console.log(formData);
+  const onSubmit = async (formData: z.infer<typeof buyFormSchema>) => {
+    try {
+      const { amount } = formData;
+      let currAmount = amount;
+      let i = 0;
+      const tx = [];
+
+      while (currAmount > 0) {
+        const order = orders[i];
+        const orderAmount = bigIntToNumber(order[1]);
+        if (orderAmount > currAmount) {
+          const data = await writeContract(config, {
+            ...breakfastContractConfig,
+            functionName: "buyOrder",
+            args: [order[0], BigInt(currAmount * 10 ** 18)],
+            value: BigInt(currAmount * price * 10 ** 18),
+          });
+        } else {
+          const data = await writeContract(config, {
+            ...breakfastContractConfig,
+            functionName: "buyOrder",
+            args: [order[0], BigInt(orderAmount * 10 ** 18)],
+            value: BigInt(orderAmount * price * 10 ** 18),
+          });
+        }
+        currAmount -= orderAmount;
+        i += 1;
+      }
+
+      toast({
+        title: "Success",
+        description: "Successfully bought all tokens",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description:
+          "Failed to buy tokens, please try again. This could be due to network error, insufficient balance, or attempt to buy your own tokens.",
+      });
+    }
   };
 
   return (
@@ -116,9 +165,7 @@ function BuyFormComponent({
         <div className="space-y-2">
           <div className="flex items-center justify-between text-muted-foreground">
             <span className="text-sm">Total</span>
-            <span className="text-sm">
-              {total ? total.toFixed(2) : 0} {currency}
-            </span>
+            <span className="text-sm">{total ? total.toFixed(2) : 0} XRP</span>
           </div>
         </div>
 

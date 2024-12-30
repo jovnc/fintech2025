@@ -6,16 +6,22 @@ interface Order {
   amount: number;
 }
 
-export default function OrderBook({ data }: { data: Order[] }) {
+export default function OrderBook({
+  data,
+  currency,
+}: {
+  data: Order[];
+  currency: string;
+}) {
   return (
     <Card className="w-full">
       <CardHeader className="border">
         <CardTitle className="text-sm font-medium">Order Book</CardTitle>
       </CardHeader>
       <CardContent className="p-0">
-        <div className="grid grid-cols-2 gap-4 p-3 text-xs text-gray-400 border-b border-gray-800">
+        <div className="grid grid-cols-2 gap-4 border-b border-gray-800 p-3 text-xs text-gray-400">
           <div className="text-center">Price (XRP)</div>
-          <div className="text-center">Volume (BFAST)</div>
+          <div className="text-center">Volume ({currency})</div>
         </div>
         <div className="max-h-[300px] overflow-y-auto">
           {data &&
@@ -23,7 +29,7 @@ export default function OrderBook({ data }: { data: Order[] }) {
               <div
                 key={id}
                 className={
-                  "grid grid-cols-2 gap-4 p-3 text-xs hover:bg-muted-foreground/50 transition-colors w-full"
+                  "grid w-full grid-cols-2 gap-4 p-3 text-xs transition-colors hover:bg-muted-foreground/50"
                 }
               >
                 <div className="text-center">{order.price}</div>

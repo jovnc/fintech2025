@@ -40,6 +40,7 @@ export function ClaimCreditModal({ type }: { type: string }) {
               }}
             />
             <OTPForm
+              type={type}
               setIsSuccess={setIsSuccess}
               writeContractAsync={writeContractAsync}
             />
@@ -47,8 +48,9 @@ export function ClaimCreditModal({ type }: { type: string }) {
         )}
         {isSuccess && (
           <SuccessClaimScreen
-            TransactionId="1"
-            Time="14/12 12:00pm"
+            transactionId="1"
+            type={type}
+            time="14/12 12:00pm"
             setIsSuccess={setIsSuccess}
           />
         )}

@@ -12,7 +12,7 @@ import { config } from "@/lib/wagmi/config";
 
 export function XrpCard() {
   // Get the connected wallet's address
-  const { address, isConnected } = useAccount();
+  const { address } = useAccount();
 
   // Get the balance of the connected wallet
   const {
@@ -28,7 +28,7 @@ export function XrpCard() {
   return (
     <div className="grid w-full grid-cols-1 items-center justify-center gap-4 md:grid-cols-2">
       <CurrentXRPBalance amount={converted} symbol="XRP" refetch={refetch} />
-      <WithdrawXRPBalance address={address || ""} />
+      <WithdrawXRPBalance address={address || ""} refetch={refetch} />
     </div>
   );
 }
@@ -60,12 +60,13 @@ function CurrentXRPBalance({
   );
 }
 
-function WithdrawXRPBalance({ address }: { address: string }) {
-  // const bfastData = useReadContract({
-  //   ...breakfastContractConfig,
-  //   functionName: "getEtherBalance",
-  //   args: [address as `0x${string}`],
-  // });
+function WithdrawXRPBalance({
+  address,
+  refetch,
+}: {
+  address: string;
+  refetch: () => void;
+}) {
   const { data: vaultBalance } = useReadContract({
     ...vaultContractConfig,
     functionName: "getBalance",
@@ -82,17 +83,23 @@ function WithdrawXRPBalance({ address }: { address: string }) {
       });
       return;
     }
-    const result = await writeContract(config, {
-      ...vaultContractConfig,
-      functionName: "withdraw",
-      args: [BigInt(balance * 10 ** 18)],
-    });
-
-    console.log(result);
-    toast({
-      title: "Success",
-      description: "Withdrawal successful",
-    });
+    try {
+      const result = await writeContract(config, {
+        ...vaultContractConfig,
+        functionName: "withdraw",
+        args: [BigInt(balance * 10 ** 18)],
+      });
+      toast({
+        title: "Success",
+        description: "Withdrawal successful",
+      });
+      refetch();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to withdraw balance",
+      });
+    }
   };
 
   return (
@@ -102,12 +109,11 @@ function WithdrawXRPBalance({ address }: { address: string }) {
           <CircleDollarSign />
           <p className="text-md text-center font-bold">Withdraw Balance</p>
         </div>
-        <p className="text-center text-xs text-muted-foreground">
-          This displays the amount of XRP available to withdraw from selling
-          your dining credits.
-        </p>
 
-        <p className="text-lg font-semibold">{balance}</p>
+        <div className="flex flex-row items-center justify-center gap-2">
+          <p className="w-full text-center text-2xl font-bold">{balance}</p>
+          <p className="text-sm text-muted-foreground">XRP</p>
+        </div>
         <Button onClick={withdraw} className="w-1/2">
           Withdraw
         </Button>

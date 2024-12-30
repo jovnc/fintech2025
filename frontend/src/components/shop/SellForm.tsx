@@ -79,11 +79,10 @@ export default function SellForm({ currency }: { currency: string }) {
 
       const data = await writeContract(config, {
         ...breakfastContractConfig,
-        functionName: "placeOrder",
+        functionName: "placeSellOrder",
         args: [BigInt(amount * 10 ** 18), BigInt(price * 10 ** 18)],
       });
 
-      console.log(data);
       toast({
         title: "Success",
         description: "Order placed successfully",
@@ -101,7 +100,7 @@ export default function SellForm({ currency }: { currency: string }) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-4 space-y-4">
         <FormField
           control={form.control}
           name="price"
@@ -118,7 +117,7 @@ export default function SellForm({ currency }: { currency: string }) {
                   {...field}
                   onChange={(e) =>
                     field.onChange(
-                      e.target.value ? parseFloat(e.target.value) : ""
+                      e.target.value ? parseFloat(e.target.value) : "",
                     )
                   }
                 />
@@ -144,12 +143,12 @@ export default function SellForm({ currency }: { currency: string }) {
                   {...field}
                   onChange={(e) =>
                     field.onChange(
-                      e.target.value ? parseInt(e.target.value) : ""
+                      e.target.value ? parseInt(e.target.value) : "",
                     )
                   }
                 />
               </FormControl>
-              <p className="text-muted-foreground text-xs">
+              <p className="text-xs text-muted-foreground">
                 Max: {bigIntToNumber(bfastAmount)} {currency}
               </p>
               <FormMessage className="text-xs" />
@@ -160,9 +159,7 @@ export default function SellForm({ currency }: { currency: string }) {
         <div className="space-y-2">
           <div className="flex items-center justify-between text-muted-foreground">
             <span className="text-sm">Total</span>
-            <span className="text-sm">
-              {total ? total.toFixed(2) : 0} {currency}
-            </span>
+            <span className="text-sm">{total ? total.toFixed(2) : 0} XRP</span>
           </div>
         </div>
 

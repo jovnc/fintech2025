@@ -1,6 +1,7 @@
 import BreakfastCreditsCard from "@/components/shop/BreakfastCreditsCard";
+import DinnerCreditsCard from "@/components/shop/DinnerCreditsCard";
 
-export default function page() {
+export default async function page() {
   return (
     <div className="flex h-full w-full flex-col gap-4 p-4">
       <h1 className="justify-self-center text-center text-2xl font-bold">
@@ -18,7 +19,7 @@ export default function page() {
 
       <div className="flex flex-col gap-4 rounded-lg bg-primary/5 p-8">
         <h3 className="text-lg font-bold">Dinner Credits (DINNER)</h3>
-        <BreakfastCreditsCard />
+        <DinnerCreditsCard />
       </div>
     </div>
   );

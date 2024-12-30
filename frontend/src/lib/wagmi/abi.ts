@@ -1,21 +1,15 @@
 export const breakfastTokenAbi = [
   {
-    inputs: [
-      { internalType: "address", name: "account", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
-    ],
+    inputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
     name: "mint",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "address", name: "account", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
-    ],
+    inputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
     name: "burn",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
@@ -25,7 +19,7 @@ export const breakfastTokenAbi = [
       { internalType: "uint256", name: "amount", type: "uint256" },
     ],
     name: "distribute",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
@@ -65,42 +59,12 @@ export const breakfastTokenAbi = [
   },
   {
     inputs: [
-      { internalType: "uint256", name: "amount", type: "uint256" },
-      { internalType: "uint256", name: "price", type: "uint256" },
-    ],
-    name: "bulkBuy",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [
       { internalType: "uint256", name: "orderId", type: "uint256" },
       { internalType: "uint256", name: "newPrice", type: "uint256" },
     ],
     name: "updateOrderPrice",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "uint256", name: "orderId", type: "uint256" }],
-    name: "getOrder",
-    outputs: [
-      {
-        components: [
-          { internalType: "uint256", name: "id", type: "uint256" },
-          { internalType: "address", name: "seller", type: "address" },
-          { internalType: "uint256", name: "amount", type: "uint256" },
-          { internalType: "uint256", name: "price", type: "uint256" },
-          { internalType: "bool", name: "active", type: "bool" },
-        ],
-        internalType: "struct SellOrder",
-        name: "",
-        type: "tuple",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {
@@ -114,6 +78,7 @@ export const breakfastTokenAbi = [
           { internalType: "uint256", name: "amount", type: "uint256" },
           { internalType: "uint256", name: "price", type: "uint256" },
           { internalType: "bool", name: "isActive", type: "bool" },
+          { internalType: "uint256", name: "timestamp", type: "uint256" },
         ],
         internalType: "struct SellOrder[]",
         name: "",
@@ -141,6 +106,7 @@ export const breakfastTokenAbi = [
           { internalType: "uint256", name: "amount", type: "uint256" },
           { internalType: "uint256", name: "price", type: "uint256" },
           { internalType: "bool", name: "active", type: "bool" },
+          { internalType: "uint256", name: "timestamp", type: "uint256" },
         ],
         internalType: "struct SellOrder[]",
         name: "",
@@ -180,22 +146,16 @@ export const breakfastTokenAbi = [
 
 export const dinnerTokenAbi = [
   {
-    inputs: [
-      { internalType: "address", name: "account", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
-    ],
+    inputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
     name: "mint",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "address", name: "account", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
-    ],
+    inputs: [{ internalType: "uint256", name: "amount", type: "uint256" }],
     name: "burn",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
@@ -205,7 +165,7 @@ export const dinnerTokenAbi = [
       { internalType: "uint256", name: "amount", type: "uint256" },
     ],
     name: "distribute",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
@@ -245,42 +205,12 @@ export const dinnerTokenAbi = [
   },
   {
     inputs: [
-      { internalType: "uint256", name: "amount", type: "uint256" },
-      { internalType: "uint256", name: "price", type: "uint256" },
-    ],
-    name: "bulkBuy",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [
       { internalType: "uint256", name: "orderId", type: "uint256" },
       { internalType: "uint256", name: "newPrice", type: "uint256" },
     ],
     name: "updateOrderPrice",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "uint256", name: "orderId", type: "uint256" }],
-    name: "getOrder",
-    outputs: [
-      {
-        components: [
-          { internalType: "uint256", name: "id", type: "uint256" },
-          { internalType: "address", name: "seller", type: "address" },
-          { internalType: "uint256", name: "amount", type: "uint256" },
-          { internalType: "uint256", name: "price", type: "uint256" },
-          { internalType: "bool", name: "active", type: "bool" },
-        ],
-        internalType: "struct SellOrder",
-        name: "",
-        type: "tuple",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {
@@ -294,6 +224,7 @@ export const dinnerTokenAbi = [
           { internalType: "uint256", name: "amount", type: "uint256" },
           { internalType: "uint256", name: "price", type: "uint256" },
           { internalType: "bool", name: "isActive", type: "bool" },
+          { internalType: "uint256", name: "timestamp", type: "uint256" },
         ],
         internalType: "struct SellOrder[]",
         name: "",
@@ -321,6 +252,7 @@ export const dinnerTokenAbi = [
           { internalType: "uint256", name: "amount", type: "uint256" },
           { internalType: "uint256", name: "price", type: "uint256" },
           { internalType: "bool", name: "active", type: "bool" },
+          { internalType: "uint256", name: "timestamp", type: "uint256" },
         ],
         internalType: "struct SellOrder[]",
         name: "",

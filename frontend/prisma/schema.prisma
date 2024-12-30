@@ -53,3 +53,14 @@ model VerificationToken {
 
   @@id([identifier, token])
 }
+
+// only recorded after successful transaction
+// model Transactions {
+//   id            String   @id @default(cuid())
+//   buyerAddress  String
+//   sellerAddress String
+//   amount        Float
+//   type          String
+//   createdAt     DateTime @default(now())
+//   updatedAt     DateTime @updatedAt
+// }

@@ -2,8 +2,6 @@
 import { Card } from "@/components/ui/card";
 import Image from "next/image";
 import { ClaimCreditModal } from "./ClaimCreditsModal";
-import { Button } from "../ui/button";
-import Link from "next/link";
 
 interface CreditCardProps {
   title: string;
