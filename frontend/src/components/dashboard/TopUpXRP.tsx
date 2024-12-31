@@ -16,6 +16,7 @@ export default function TopUpXRP({ refetch }: { refetch: () => void }) {
         title: "Not connected",
         description: "Please connect your wallet",
       });
+      setIsLoading(false);
       return;
     }
     const data = await fetch("/api/wallet", {

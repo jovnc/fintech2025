@@ -3,20 +3,20 @@ import Image from "next/image";
 
 export default function LoginPage() {
   return (
-    <div className="grid min-h-svh lg:grid-cols-2">
+    <div className="flex h-full w-full flex-col items-center justify-center">
       <div className="flex flex-col gap-4 p-6 md:p-10">
         <div className="flex flex-1 items-center justify-center">
-          <div className="w-full max-w-sm">
+          <div className="flex w-full max-w-sm flex-col items-center justify-center gap-4">
+            <Image
+              src="/logo.png"
+              alt="Image"
+              height={200}
+              width={200}
+              className="items-center justify-center"
+            />
             <LoginForm />
           </div>
         </div>
-      </div>
-      <div className="relative hidden bg-muted lg:block">
-        <Image
-          src="/placeholder.svg"
-          alt="Image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-        />
       </div>
     </div>
   );
