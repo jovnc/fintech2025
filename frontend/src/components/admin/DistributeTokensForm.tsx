@@ -105,8 +105,14 @@ function DistributeTokensForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="mx-auto max-w-3xl space-y-8 p-6"
+        className="flex flex-col gap-4 p-8"
       >
+        <p className="text-sm font-bold">Distribute Tokens</p>
+        <p className="text-xs text-muted-foreground">
+          Select the users that you want to distribute tokens to in the table.
+          This will automatically mint the necessary tokens and distribute to
+          all selected users
+        </p>
         <FormField
           control={form.control}
           name="amount"
@@ -115,15 +121,11 @@ function DistributeTokensForm({
               <FormLabel>Amount</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Breakfast Credits"
+                  placeholder={`${currency} credits`}
                   type="number"
                   {...field}
                 />
               </FormControl>
-              <FormDescription>
-                Enter the number of {currency} credits you would like to
-                distribute to all selected users
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}

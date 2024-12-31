@@ -23,6 +23,8 @@ import {
   breakfastContractConfig,
   dinnerContractConfig,
 } from "@/lib/wagmi/contracts";
+import { createCreditClaim } from "@/actions/credits";
+import { useSession } from "next-auth/react";
 
 const OTPFormSchema = z.object({
   otp: z
@@ -46,15 +48,23 @@ export default function OTPForm({
       otp: "",
     },
   });
+  const { data } = useSession();
+  if (!data || !data.user) return null;
+  const id = data.user.id;
 
   async function onSubmit(values: z.infer<typeof OTPFormSchema>) {
     if (values.otp === "1234" && type === "Breakfast") {
       try {
-        await writeContractAsync({
+        const txHash = await writeContractAsync({
           ...breakfastContractConfig,
           functionName: "claimDiningCredit",
           args: [],
         });
+        const res = await createCreditClaim(
+          id as string,
+          txHash as string,
+          type,
+        );
         setIsSuccess(true);
       } catch (error) {
         toast({
@@ -64,11 +74,16 @@ export default function OTPForm({
       }
     } else if (values.otp === "1234" && type === "Dinner") {
       try {
-        await writeContractAsync({
+        const txHash = await writeContractAsync({
           ...dinnerContractConfig,
           functionName: "claimDiningCredit",
           args: [],
         });
+        const res = await createCreditClaim(
+          id as string,
+          txHash as string,
+          type,
+        );
         setIsSuccess(true);
       } catch (error) {
         toast({

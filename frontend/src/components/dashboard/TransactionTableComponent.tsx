@@ -13,8 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown } from "lucide-react";
-import { Checkbox } from "@/components/ui/checkbox";
+import { ChevronDown, SquareArrowOutUpRightIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -32,80 +31,87 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { DistributeTabs } from "./DistributeTabs";
 
-interface Account {
-  id: string;
-  name: string | null;
-  email: string | null;
-  wallet: string | null;
+interface Transaction {
+  transactionHash: string;
+  createdAt: Date;
+  buyerId: string;
+  sellerId: string;
+  amount: number;
+  price: number;
+  type: string;
 }
 
-interface AccountsTableProps {
-  users: Account[] | [];
-}
+const columns: ColumnDef<Transaction>[] = [
+  {
+    accessorKey: "type",
+    header: () => <div className="text-left">Type</div>,
+    cell: ({ row }) => <div>{row.getValue("type")}</div>,
+  },
+  {
+    accessorKey: "createdAt",
+    header: () => <div className="text-left">Claimed At</div>,
+    cell: ({ row }) => {
+      const dateValue = row.original.createdAt;
 
-export const columns: ColumnDef<Account>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
+      return <div>{dateValue.toUTCString()}</div>;
+    },
   },
   {
-    accessorKey: "name",
-    header: ({ column }) => {
+    accessorKey: "price",
+    header: () => <div className="text-left">Price</div>,
+    cell: ({ row }) => {
+      const price = row.original.price;
+
+      return <div>{price}</div>;
+    },
+  },
+  {
+    accessorKey: "amount",
+    header: () => <div className="text-left">Amount</div>,
+    cell: ({ row }) => {
+      const amount = row.original.amount;
+
+      return <div>{amount}</div>;
+    },
+  },
+  {
+    accessorKey: "buyerId",
+    header: () => <div className="text-left">Buyer</div>,
+    cell: ({ row }) => {
+      const buyer = row.original.buyerId;
+
+      return <div>{buyer.substring(0, 8)}...</div>;
+    },
+  },
+  {
+    accessorKey: "sellerId",
+    header: () => <div className="text-left">Seller</div>,
+    cell: ({ row }) => {
+      const seller = row.original.sellerId;
+
+      return <div>{seller.substring(0, 8)}...</div>;
+    },
+  },
+  {
+    accessorKey: "transactionHash",
+    header: () => <div className="text-left">Transaction Hash</div>,
+    cell: ({ row }) => {
+      const txHash = row.original.transactionHash;
+      const link = `https://explorer.xrplevm.org/tx/${txHash}`;
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Name
-          <ArrowUpDown />
-        </Button>
+        <div className="flex gap-2">
+          <p>{txHash.substring(0, 10)}...</p>
+          <a target="_blank" href={link} rel="noopener noreferrer">
+            <SquareArrowOutUpRightIcon className="h-4 w-4" />
+          </a>
+        </div>
       );
     },
-    cell: ({ row }) => <div>{row.getValue("name")}</div>,
-  },
-  {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown />
-        </Button>
-      );
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
-  },
-  {
-    accessorKey: "wallet",
-    header: () => <div className="text-left">Wallet Public Address</div>,
-    cell: ({ row }) => <div>{row.getValue("wallet")}</div>,
   },
 ];
 
-export function AccountsTable({ users }: AccountsTableProps) {
+export function TransactionTableComponent({ data }: { data: Transaction[] }) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
@@ -113,13 +119,9 @@ export function AccountsTable({ users }: AccountsTableProps) {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
-  const selectedRows = Object.keys(rowSelection);
-  const selectedUserWallets = selectedRows.map(
-    (id) => users[Number(id)]?.wallet,
-  );
 
   const table = useReactTable({
-    data: users,
+    data,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -138,19 +140,24 @@ export function AccountsTable({ users }: AccountsTableProps) {
   });
 
   return (
-    <div className="w-full">
-      <div className="flex items-center py-4">
+    <div className="w-full p-8">
+      <div className="flex flex-row items-center justify-between gap-4 py-4">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+          placeholder="Filter by Hash"
+          value={
+            (table.getColumn("transactionHash")?.getFilterValue() as string) ??
+            ""
           }
-          className="max-w-sm"
+          onChange={(event) =>
+            table
+              .getColumn("transactionHash")
+              ?.setFilterValue(event.target.value)
+          }
+          className="w-full"
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="outline">
               Columns <ChevronDown />
             </Button>
           </DropdownMenuTrigger>
@@ -226,10 +233,6 @@ export function AccountsTable({ users }: AccountsTableProps) {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
         <div className="space-x-2">
           <Button
             variant="outline"
@@ -249,7 +252,6 @@ export function AccountsTable({ users }: AccountsTableProps) {
           </Button>
         </div>
       </div>
-      <DistributeTabs selectedUserWallets={selectedUserWallets} />
     </div>
   );
 }

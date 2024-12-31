@@ -30,7 +30,7 @@ export default function DinnerCreditsCard() {
         };
       }
       acc[price].amount += bigIntToNumber(order.amount);
-      acc[price].order.push([order.id, order.amount]);
+      acc[price].order.push([order.id, order.amount, order.seller]);
       return acc;
     },
     {},

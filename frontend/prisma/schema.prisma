@@ -54,13 +54,25 @@ model VerificationToken {
   @@id([identifier, token])
 }
 
-// only recorded after successful transaction
-// model Transactions {
-//   id            String   @id @default(cuid())
-//   buyerAddress  String
-//   sellerAddress String
-//   amount        Float
-//   type          String
-//   createdAt     DateTime @default(now())
-//   updatedAt     DateTime @updatedAt
-// }
+// record successful transactions
+model Transactions {
+  id              String   @id @default(cuid())
+  sellerId        String
+  buyerId         String
+  amount          Float
+  price           Float
+  type            String
+  transactionHash String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+// record claims for credit
+model ClaimCredit {
+  id              String   @id @default(cuid())
+  userId          String
+  transactionHash String
+  type            String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}

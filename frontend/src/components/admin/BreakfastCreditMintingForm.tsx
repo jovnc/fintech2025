@@ -72,7 +72,7 @@ export default function BreakfastCreditMintingForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="mx-auto max-w-3xl space-y-8 p-6"
+        className="flex flex-col gap-4 p-8"
       >
         <FormField
           control={form.control}

@@ -13,10 +13,6 @@ contract BreakfastCreditsToken is ERC20, Ownable, Tradable {
     address private constant DONATION_WALLET = address(0x000000000000000000000000000000000000dEaD); // Inaccessible wallet (example: a burn address)
     uint256 private totalDonations; // Tracks the total amount donated
 
-    event orderFulfilled(uint256 orderId, uint256 amount, uint256 timestamp, address buyer, address seller);
-    event tokenClaimed(uint256 timestamp, address claimer);
-    event DonationReceived(address donor, uint amount, uint timestamp);
-
     constructor(address payable vaultAddress) ERC20("Breakfast Tokens", "BFAST") Ownable(msg.sender) {
         vault = CentralizedVault(vaultAddress);
     }
@@ -70,8 +66,6 @@ contract BreakfastCreditsToken is ERC20, Ownable, Tradable {
         // complete the order
         _buyOrder(orderId, amount);
         _mint(msg.sender, amount); // transfer token to buyer
-
-        emit orderFulfilled(orderId, amount, block.timestamp, msg.sender, order.seller);
     }
 
     // User: Update the price of a sell order
@@ -90,13 +84,6 @@ contract BreakfastCreditsToken is ERC20, Ownable, Tradable {
 
         // Burn one token from the caller's account
         _burn(msg.sender, 1*10**18);
-
-        emit tokenClaimed(block.timestamp, msg.sender);
-    }
-
-    // User: List all the sell orders placed by the caller
-    function listOrdersByUser() public view returns (SellOrder[] memory) {
-        return _listOrdersByUser(msg.sender);
     }
 
     // User: donate tokens
@@ -108,8 +95,6 @@ contract BreakfastCreditsToken is ERC20, Ownable, Tradable {
 
         // Update the total donations
         totalDonations += amount;
-
-        emit DonationReceived(msg.sender, amount, block.timestamp);
     }
 
     // User: get the total amount donated

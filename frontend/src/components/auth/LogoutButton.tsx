@@ -2,12 +2,15 @@
 import { logOut } from "@/actions/auth";
 import { LogOut } from "lucide-react";
 import { Button } from "../ui/button";
-import { useDisconnect } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
 
 export default function LogoutButton() {
   const { disconnect } = useDisconnect();
+  const { isConnected } = useAccount();
   const handleLogout = async () => {
-    disconnect();
+    if (isConnected) {
+      disconnect();
+    }
     await logOut();
   };
   return (

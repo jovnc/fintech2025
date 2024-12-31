@@ -44,11 +44,6 @@ export default function SellForm({ currency }: { currency: string }) {
     args: [address as `0x${string}`],
   });
 
-  const { refetch } = useReadContract({
-    ...breakfastContractConfig,
-    functionName: "listOrders",
-  });
-
   const { watch } = form;
   const price = watch("price");
   const amount = watch("amount");
@@ -87,8 +82,6 @@ export default function SellForm({ currency }: { currency: string }) {
         title: "Success",
         description: "Order placed successfully",
       });
-
-      refetch();
     } catch (error) {
       toast({
         title: "Error",

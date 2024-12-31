@@ -17,6 +17,8 @@ import { config } from "@/lib/wagmi/config";
 import { toast } from "@/hooks/use-toast";
 import { bigIntToNumber } from "@/lib/utils";
 import { dinnerContractConfig } from "@/lib/wagmi/contracts";
+import { useAccount } from "wagmi";
+import { createTransaction } from "@/actions/transactions";
 
 interface Order {
   price: number;
@@ -77,6 +79,8 @@ function BuyFormComponent({
     },
   });
 
+  const { address } = useAccount();
+
   const { watch } = form;
 
   const amountValue = watch("amount");
@@ -91,20 +95,50 @@ function BuyFormComponent({
 
       while (currAmount > 0) {
         const order = orders[i];
+
+        const seller = order[2];
+
+        if (seller === address) {
+          throw new Error("Cannot buy your own tokens");
+        }
         const orderAmount = bigIntToNumber(order[1]);
         if (orderAmount > currAmount) {
-          const data = await writeContract(config, {
+          const txHash = await writeContract(config, {
             ...dinnerContractConfig,
             functionName: "buyOrder",
             args: [order[0], BigInt(currAmount * 10 ** 18)],
             value: BigInt(currAmount * price * 10 ** 18),
           });
+          const res = await createTransaction(
+            address as string,
+            seller as string,
+            txHash,
+            currAmount,
+            price,
+            "DINNER",
+          );
+          toast({
+            title: "Success",
+            description: `Successfully bought ${currAmount} tokens`,
+          });
         } else {
-          const data = await writeContract(config, {
+          const txHash = await writeContract(config, {
             ...dinnerContractConfig,
             functionName: "buyOrder",
             args: [order[0], BigInt(orderAmount * 10 ** 18)],
             value: BigInt(orderAmount * price * 10 ** 18),
+          });
+          const res = await createTransaction(
+            address as string,
+            seller as string,
+            txHash,
+            orderAmount,
+            price,
+            "DINNER",
+          );
+          toast({
+            title: "Success",
+            description: `Successfully bought ${orderAmount} tokens`,
           });
         }
         currAmount -= orderAmount;

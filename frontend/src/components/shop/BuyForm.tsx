@@ -17,6 +17,8 @@ import { config } from "@/lib/wagmi/config";
 import { breakfastContractConfig } from "@/lib/wagmi/contracts";
 import { toast } from "@/hooks/use-toast";
 import { bigIntToNumber } from "@/lib/utils";
+import { useAccount } from "wagmi";
+import { createTransaction } from "@/actions/transactions";
 
 interface Order {
   price: number;
@@ -76,6 +78,7 @@ function BuyFormComponent({
       amount: 0,
     },
   });
+  const { address } = useAccount();
 
   const { watch } = form;
 
@@ -91,20 +94,50 @@ function BuyFormComponent({
 
       while (currAmount > 0) {
         const order = orders[i];
+        const seller = order[2];
+
+        if (seller === address) {
+          throw new Error("Cannot buy your own tokens");
+        }
+
         const orderAmount = bigIntToNumber(order[1]);
         if (orderAmount > currAmount) {
-          const data = await writeContract(config, {
+          const txHash = await writeContract(config, {
             ...breakfastContractConfig,
             functionName: "buyOrder",
             args: [order[0], BigInt(currAmount * 10 ** 18)],
             value: BigInt(currAmount * price * 10 ** 18),
           });
+          const res = await createTransaction(
+            address as string,
+            seller as string,
+            txHash,
+            currAmount,
+            price,
+            "BFAST",
+          );
+          toast({
+            title: "Success",
+            description: `Successfully bought ${currAmount} tokens`,
+          });
         } else {
-          const data = await writeContract(config, {
+          const txHash = await writeContract(config, {
             ...breakfastContractConfig,
             functionName: "buyOrder",
             args: [order[0], BigInt(orderAmount * 10 ** 18)],
             value: BigInt(orderAmount * price * 10 ** 18),
+          });
+          const res = await createTransaction(
+            address as string,
+            seller as string,
+            txHash,
+            orderAmount,
+            price,
+            "BFAST",
+          );
+          toast({
+            title: "Success",
+            description: `Successfully bought ${orderAmount} tokens`,
           });
         }
         currAmount -= orderAmount;
@@ -119,7 +152,7 @@ function BuyFormComponent({
       toast({
         title: "Error",
         description:
-          "Failed to buy tokens, please try again. This could be due to network error, insufficient balance, or attempt to buy your own tokens.",
+          "Failed to buy tokens, please try again. This could be due to insufficient balance, or attempt to buy your own tokens.",
       });
     }
   };

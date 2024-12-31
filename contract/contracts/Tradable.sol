@@ -59,17 +59,4 @@ contract Tradable {
         return orders;
     }
 
-    function _listOrdersByUser(address user) internal view returns (SellOrder[] memory) {
-        SellOrder[] memory userOrders;
-        uint256 count = 0;
-
-        for (uint256 i = 0; i < orders.length; i++) {
-            if (orders[i].seller == user) {
-                userOrders[count] = orders[i];
-                count++;
-            }
-        }
-        return userOrders;
-    }
-
 }

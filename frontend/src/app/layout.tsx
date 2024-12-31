@@ -31,6 +31,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
       >
         <Providers>
           <div className="flex min-h-screen flex-col">
@@ -38,7 +39,7 @@ export default function RootLayout({
             <main className="flex-grow">{children}</main>
             <Toaster />
             <ChatComponent />
-            {/* <Footer /> */}
+            <Footer />
           </div>
         </Providers>
       </body>

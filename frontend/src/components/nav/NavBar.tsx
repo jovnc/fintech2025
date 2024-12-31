@@ -19,9 +19,9 @@ export async function Navbar({}) {
   return (
     <nav className="w-full">
       <div className="px-10 sm:px-8 lg:px-10">
-        <div className="flex justify-between h-16">
-          <div className="flex-shrink-0 flex items-center">
-            <Link href="/" className="text-xl font-bold ">
+        <div className="flex h-16 justify-between">
+          <div className="flex flex-shrink-0 items-center">
+            <Link href="/" className="text-xl font-bold">
               <Image src="/logo.png" alt="Logo" width={40} height={40} />
             </Link>
           </div>

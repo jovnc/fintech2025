@@ -2,8 +2,10 @@
 
 import { Card } from "../ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import BuyForm from "./BuyForm";
 import DinnerBuyForm from "./DinnerBuyForm";
 import DinnerSellForm from "./DinnerSellForm";
+import SellForm from "./SellForm";
 
 interface Order {
   price: number;
@@ -36,10 +38,18 @@ export default function TradingPanel({
           </TabsTrigger>
         </TabsList>
         <TabsContent value="buy">
-          <DinnerBuyForm currency={currency} data={data} />
+          {currency === "BFAST" ? (
+            <BuyForm currency={currency} data={data} />
+          ) : (
+            <DinnerBuyForm currency={currency} data={data} />
+          )}
         </TabsContent>
         <TabsContent value="sell">
-          <DinnerSellForm currency={currency} />
+          {currency === "BFAST" ? (
+            <SellForm currency={currency} />
+          ) : (
+            <DinnerSellForm currency={currency} />
+          )}
         </TabsContent>
       </Tabs>
     </Card>
