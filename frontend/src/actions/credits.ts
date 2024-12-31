@@ -7,7 +7,7 @@ export async function createCreditClaim(
   type: string,
 ) {
   try {
-    const data = await db.claimCredit.create({
+    await db.claimCredit.create({
       data: {
         userId: userId,
         transactionHash,

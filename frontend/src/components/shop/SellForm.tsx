@@ -72,7 +72,7 @@ export default function SellForm({ currency }: { currency: string }) {
         return;
       }
 
-      const data = await writeContract(config, {
+      await writeContract(config, {
         ...breakfastContractConfig,
         functionName: "placeSellOrder",
         args: [BigInt(amount * 10 ** 18), BigInt(price * 10 ** 18)],

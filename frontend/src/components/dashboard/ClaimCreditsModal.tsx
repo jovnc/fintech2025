@@ -49,7 +49,7 @@ export function ClaimCreditModal({ type }: { type: string }) {
             <ArrowRight />
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="w-3/4 px-4">
           <DialogHeader>
             <DialogTitle>Claim</DialogTitle>
             <DialogDescription>

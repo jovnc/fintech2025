@@ -4,12 +4,12 @@ import { ethers } from "ethers";
 const FAUCET_PRIVATE_KEY = process.env.FAUCET_WALLET_PRIVATE_KEY;
 const XRP_EVM_RPC = "https://rpc-evm-sidechain.xrpl.org";
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
   const { recipient, amount } = await req.json();
   if (!recipient || !/^0x[a-fA-F0-9]{40}$/.test(recipient)) {
     return NextResponse.json(
       { error: "Recipient address and amount are required" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -34,7 +34,7 @@ export async function POST(req: Request, res: Response) {
     console.error(error);
     return NextResponse.json(
       { error: "Failed to send transaction" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

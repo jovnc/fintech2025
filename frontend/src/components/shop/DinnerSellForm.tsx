@@ -77,7 +77,7 @@ export default function DinnerSellForm({ currency }: { currency: string }) {
         return;
       }
 
-      const data = await writeContract(config, {
+      await writeContract(config, {
         ...dinnerContractConfig,
         functionName: "placeSellOrder",
         args: [BigInt(amount * 10 ** 18), BigInt(price * 10 ** 18)],

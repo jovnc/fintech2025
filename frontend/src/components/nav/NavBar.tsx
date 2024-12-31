@@ -4,6 +4,7 @@ import MobileMenu from "./MobileMenu";
 import { auth } from "@/auth";
 import DesktopMenu from "./DesktopMenu";
 import { ProfileMenu } from "./ProfileMenu";
+import { LoginModal } from "../auth/LoginModal";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -31,6 +32,7 @@ export async function Navbar({}) {
             {!session && (
               <DesktopMenu navItems={[navItems[0]]} session={session} />
             )}
+            {!session?.user && <LoginModal />}
 
             {/* Mobile menu button */}
             {session?.user && (

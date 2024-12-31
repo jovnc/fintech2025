@@ -13,7 +13,7 @@ export function LoginModal() {
       <DialogTrigger asChild>
         <Button variant="outline">Login</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="w-3/4 px-4">
         <DialogTitle></DialogTitle>
         <LoginForm />
       </DialogContent>

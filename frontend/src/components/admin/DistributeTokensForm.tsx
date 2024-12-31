@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -70,7 +69,7 @@ function DistributeTokensForm({
 
       const mintAmount = Number(values.amount) * 10 ** 18;
       if (currency === "BFAST") {
-        const res = await writeContractAsync({
+        await writeContractAsync({
           ...breakfastContractConfig,
           functionName: "distribute",
           args: [
@@ -79,7 +78,7 @@ function DistributeTokensForm({
           ],
         });
       } else {
-        const res = await writeContractAsync({
+        await writeContractAsync({
           ...dinnerContractConfig,
           functionName: "distribute",
           args: [

@@ -32,8 +32,8 @@ export async function getTransactions(userId: string) {
       select: { wallet: true },
     });
 
-    if (!data) {
-      throw new Error("User not found");
+    if (!data || !data.wallet) {
+      return [];
     }
 
     const wallet = data.wallet as string;

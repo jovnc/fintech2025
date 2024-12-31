@@ -70,7 +70,7 @@ export default function ListingActions({ listing }: { listing: Listing }) {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     if (type === "breakfast") {
       try {
-        const data = await writeContract(config, {
+        await writeContract(config, {
           ...breakfastContractConfig,
           functionName: "updateOrderPrice",
           args: [BigInt(id), BigInt(Number(values.price) * 10 ** 18)],
@@ -87,7 +87,7 @@ export default function ListingActions({ listing }: { listing: Listing }) {
       }
     } else {
       try {
-        const data = await writeContract(config, {
+        await writeContract(config, {
           ...dinnerContractConfig,
           functionName: "updateOrderPrice",
           args: [BigInt(id), BigInt(Number(values.price) * 10 ** 18)],
@@ -110,7 +110,7 @@ export default function ListingActions({ listing }: { listing: Listing }) {
   const handleRemove = async () => {
     if (type === "breakfast") {
       try {
-        const data = await writeContract(config, {
+        await writeContract(config, {
           ...breakfastContractConfig,
           functionName: "removeOrder",
           args: [BigInt(id)],
@@ -127,7 +127,7 @@ export default function ListingActions({ listing }: { listing: Listing }) {
       }
     } else {
       try {
-        const data = await writeContract(config, {
+        await writeContract(config, {
           ...dinnerContractConfig,
           functionName: "removeOrder",
           args: [BigInt(id)],
@@ -169,7 +169,7 @@ export default function ListingActions({ listing }: { listing: Listing }) {
       </DropdownMenu>
 
       <Dialog open={removeDialogOpen} onOpenChange={setRemoveDialogOpen}>
-        <DialogContent>
+        <DialogContent className="w-3/4 px-4">
           <DialogHeader>
             <DialogTitle>
               Are you sure you want to remove this listing?

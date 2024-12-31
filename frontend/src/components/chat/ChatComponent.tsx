@@ -8,6 +8,7 @@ import ReactMarkdown from "react-markdown";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useSession } from "next-auth/react";
 
 export function ChatComponent() {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,6 +19,7 @@ export function ChatComponent() {
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+  const { data } = useSession();
 
   useEffect(() => {
     scrollToBottom();
@@ -32,9 +34,9 @@ export function ChatComponent() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             transition={{ duration: 0.2 }}
-            className="bg-card rounded-lg shadow-lg w-80 h-96 flex flex-col"
+            className="flex h-96 w-80 flex-col rounded-lg bg-card shadow-lg"
           >
-            <div className="flex justify-between items-center p-4 border-b">
+            <div className="flex items-center justify-between border-b p-4">
               <h2 className="text-lg font-semibold">Chat</h2>
               <Button
                 variant="ghost"
@@ -59,7 +61,7 @@ export function ChatComponent() {
                       }`}
                     >
                       <div
-                        className={`text-xs mb-1 ${
+                        className={`mb-1 text-xs ${
                           message.role === "user"
                             ? "text-blue-600"
                             : "text-green-600"
@@ -68,7 +70,7 @@ export function ChatComponent() {
                         {message.role === "user" ? "You" : "ChatGPT"}
                       </div>
                       <div
-                        className={`p-2 rounded-lg ${
+                        className={`rounded-lg p-2 ${
                           message.role === "user"
                             ? "bg-blue-500 text-white"
                             : "bg-gray-200 text-gray-800"
@@ -87,9 +89,9 @@ export function ChatComponent() {
                 ))}
                 {isLoading && (
                   <div className="flex justify-start">
-                    <div className="max-w-[80%] mr-auto">
-                      <div className="text-xs mb-1 text-green-600">ChatGPT</div>
-                      <div className="p-2 rounded-lg bg-gray-200 text-gray-800">
+                    <div className="mr-auto max-w-[80%]">
+                      <div className="mb-1 text-xs text-green-600">ChatGPT</div>
+                      <div className="rounded-lg bg-gray-200 p-2 text-gray-800">
                         Thinking...
                       </div>
                     </div>
@@ -98,7 +100,7 @@ export function ChatComponent() {
                 <div ref={messagesEndRef} />
               </div>
             </ScrollArea>
-            <form onSubmit={handleSubmit} className="p-4 border-t">
+            <form onSubmit={handleSubmit} className="border-t p-4">
               <div className="flex space-x-2">
                 <Input
                   value={input}
@@ -121,7 +123,8 @@ export function ChatComponent() {
             setIsOpen(true);
           }}
           size="icon"
-          className="rounded-full w-12 h-12"
+          className="h-12 w-12 rounded-full"
+          disabled={!data}
         >
           <MessageCircle className="h-6 w-6" />
         </Button>

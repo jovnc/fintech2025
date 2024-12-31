@@ -9,13 +9,17 @@ import { toast } from "@/hooks/use-toast";
 import { connect, getAccount } from "@wagmi/core";
 import { config } from "@/lib/wagmi/config";
 
-const MetamaskLoginButton = ({ setOpen }: { setOpen: any }) => {
+const MetamaskLoginButton = ({
+  setOpen,
+}: {
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const { data } = useSession();
   const { isConnected } = useAccount();
   const { disconnect } = useDisconnect();
 
   const authenticateWithMetaMask = async (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement>,
   ) => {
     event.preventDefault();
 
