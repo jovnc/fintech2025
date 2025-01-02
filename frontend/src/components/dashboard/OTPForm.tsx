@@ -33,7 +33,7 @@ const OTPFormSchema = z.object({
     .regex(/^\d{4}$/, "OTP must be 4 digits"),
 });
 
-export default function OTPForm({ onSubmit }: { onSubmit: any }) {
+export default function OTPForm({ handleForm }: { handleForm: any }) {
   const form = useForm<z.infer<typeof OTPFormSchema>>({
     resolver: zodResolver(OTPFormSchema),
     defaultValues: {
@@ -41,10 +41,15 @@ export default function OTPForm({ onSubmit }: { onSubmit: any }) {
     },
   });
 
+  const handleOTPFormSubmit = async (values: z.infer<typeof OTPFormSchema>) => {
+    const { otp } = values;
+    await handleForm(otp);
+  };
+
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(handleOTPFormSubmit)}
         className="flex flex-row items-end justify-center gap-4"
       >
         <FormField

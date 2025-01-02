@@ -15,6 +15,7 @@ import SuccessClaimScreen from "./SuccessClaimScreen";
 import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import { ArrowRight } from "lucide-react";
 import {
+  breakfastContractAddress,
   breakfastContractConfig,
   dinnerContractConfig,
 } from "@/lib/wagmi/contracts";
@@ -22,6 +23,8 @@ import { bigIntToNumber } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
 import { createCreditClaim } from "@/actions/credits";
 import { useSession } from "next-auth/react";
+import { estimateGas } from "@wagmi/core";
+import { config } from "@/lib/wagmi/config";
 
 export function ClaimCreditModal({ type }: { type: string }) {
   const [isSuccess, setIsSuccess] = useState(false);
@@ -44,10 +47,7 @@ export function ClaimCreditModal({ type }: { type: string }) {
   if (!data || !data.user) return null;
   const id = data.user.id;
 
-  const handleFormSubmission = async function onSubmit(
-    otp: string,
-    type: string,
-  ) {
+  const handleFormSubmission = async (otp: string) => {
     if (otp === "1234" && type === "Breakfast") {
       try {
         const txHash = await writeContractAsync({
@@ -132,10 +132,10 @@ export function ClaimCreditModal({ type }: { type: string }) {
           <div className="flex flex-col gap-4 py-4">
             <Scanner
               onScan={(detectedCodes) => {
-                handleFormSubmission(detectedCodes[0].rawValue, type);
+                handleFormSubmission(detectedCodes[0].rawValue);
               }}
             />
-            <OTPForm onSubmit={handleFormSubmission} />
+            <OTPForm handleForm={handleFormSubmission} />
           </div>
         )}
         {isSuccess && (
