@@ -19,7 +19,8 @@ import { config } from "@/lib/wagmi/config";
 import { breakfastContractConfig } from "@/lib/wagmi/contracts";
 import { toast } from "@/hooks/use-toast";
 import { useAccount, useReadContract } from "wagmi";
-import { bigIntToNumber } from "@/lib/utils";
+import { bigIntToNumber, convertToSGD } from "@/lib/utils";
+import { usePrice } from "@/hooks/use-price";
 
 const sellFormSchema = z.object({
   price: z.number().positive("Price must be positive"),
@@ -43,6 +44,8 @@ export default function SellForm({ currency }: { currency: string }) {
     functionName: "balanceOf",
     args: [address as `0x${string}`],
   });
+
+  const { price: xrpPrice } = usePrice();
 
   const { watch } = form;
   const price = watch("price");
@@ -150,9 +153,16 @@ export default function SellForm({ currency }: { currency: string }) {
         />
 
         <div className="space-y-2">
-          <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-sm">Total</span>
-            <span className="text-sm">{total ? total.toFixed(2) : 0} XRP</span>
+          <div className="flex flex-col text-muted-foreground">
+            <div className="flex items-center justify-between text-muted-foreground">
+              <span className="text-sm">Total</span>
+              <span className="text-sm">
+                {total ? total.toFixed(2) : 0} XRP
+              </span>
+            </div>
+            <p className="text-right text-sm text-muted-foreground">
+              (${convertToSGD(xrpPrice, total)} SGD)
+            </p>
           </div>
         </div>
 

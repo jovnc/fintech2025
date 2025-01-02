@@ -16,9 +16,10 @@ import { writeContract } from "@wagmi/core";
 import { config } from "@/lib/wagmi/config";
 import { breakfastContractConfig } from "@/lib/wagmi/contracts";
 import { toast } from "@/hooks/use-toast";
-import { bigIntToNumber } from "@/lib/utils";
+import { bigIntToNumber, convertToSGD } from "@/lib/utils";
 import { useAccount } from "wagmi";
 import { createTransaction } from "@/actions/transactions";
+import { usePrice } from "@/hooks/use-price";
 
 interface Order {
   price: number;
@@ -84,6 +85,7 @@ function BuyFormComponent({
 
   const amountValue = watch("amount");
   const total = price * amountValue;
+  const { price: xrpPrice } = usePrice();
 
   const onSubmit = async (formData: z.infer<typeof buyFormSchema>) => {
     try {
@@ -164,6 +166,11 @@ function BuyFormComponent({
           <p>Current market price: </p>
           {price === 0 && <p className="text-2xl font-bold">None available</p>}
           {price !== 0 && <p className="text-2xl font-bold">{price} XRP</p>}
+          {price !== 0 && (
+            <p className="text-sm text-muted-foreground">
+              (${convertToSGD(xrpPrice, price)} SGD)
+            </p>
+          )}
         </div>
 
         <FormField
@@ -196,9 +203,16 @@ function BuyFormComponent({
         />
 
         <div className="space-y-2">
-          <div className="flex items-center justify-between text-muted-foreground">
-            <span className="text-sm">Total</span>
-            <span className="text-sm">{total ? total.toFixed(2) : 0} XRP</span>
+          <div className="flex flex-col text-muted-foreground">
+            <div className="flex items-center justify-between text-muted-foreground">
+              <span className="text-sm">Total</span>
+              <span className="text-sm">
+                {total ? total.toFixed(2) : 0} XRP
+              </span>
+            </div>
+            <p className="text-right text-sm text-muted-foreground">
+              (${convertToSGD(xrpPrice, total)} SGD)
+            </p>
           </div>
         </div>
 

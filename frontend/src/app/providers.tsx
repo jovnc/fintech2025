@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import React from "react";
 import { WagmiProvider } from "wagmi";
+import { PriceProvider } from "../providers/price";
 
 const queryClient = new QueryClient();
 
@@ -18,7 +19,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
     >
       <WagmiProvider config={config}>
         <QueryClientProvider client={queryClient}>
-          <SessionProvider>{children}</SessionProvider>
+          <PriceProvider>
+            <SessionProvider>{children}</SessionProvider>
+          </PriceProvider>
         </QueryClientProvider>
       </WagmiProvider>
     </ThemeProvider>

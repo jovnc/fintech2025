@@ -50,7 +50,11 @@ const columns: ColumnDef<Credit>[] = [
     cell: ({ row }) => {
       const dateValue = row.original.createdAt;
 
-      return <div>{dateValue.toUTCString()}</div>;
+      return (
+        <div>
+          {dateValue.toLocaleDateString()} {dateValue.toLocaleTimeString()}
+        </div>
+      );
     },
   },
   {

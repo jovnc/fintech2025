@@ -9,6 +9,8 @@ import { Button } from "../ui/button";
 import { toast } from "@/hooks/use-toast";
 import { writeContract } from "@wagmi/core";
 import { config } from "@/lib/wagmi/config";
+import { usePrice } from "@/hooks/use-price";
+import { convertToSGD } from "@/lib/utils";
 
 export function XrpCard() {
   // Get the connected wallet's address
@@ -42,6 +44,7 @@ function CurrentXRPBalance({
   symbol: string;
   refetch: () => void;
 }) {
+  const { price } = usePrice();
   return (
     <Card className="h-full w-full items-center justify-center bg-primary/10 p-5 sm:grid-cols-2">
       <div className="flex w-full flex-col items-center justify-center gap-4">
@@ -52,6 +55,11 @@ function CurrentXRPBalance({
         <div className="flex flex-row items-center justify-center gap-2">
           <p className="w-full text-center text-2xl font-bold">{amount}</p>
           <p className="text-sm text-muted-foreground">{symbol}</p>
+        </div>
+        <div className="flex flex-row items-center justify-center gap-2">
+          <p className="text-sm text-muted-foreground">
+            (${convertToSGD(price, amount)} SGD)
+          </p>
         </div>
 
         <TopUpXRP refetch={refetch} />
@@ -74,6 +82,8 @@ function WithdrawXRPBalance({
   });
 
   const balance = vaultBalance ? Number(convertDropsToXRP(vaultBalance)) : 0;
+
+  const { price } = usePrice();
 
   const withdraw = async () => {
     if (balance <= 0) {
@@ -113,6 +123,11 @@ function WithdrawXRPBalance({
         <div className="flex flex-row items-center justify-center gap-2">
           <p className="w-full text-center text-2xl font-bold">{balance}</p>
           <p className="text-sm text-muted-foreground">XRP</p>
+        </div>
+        <div className="flex flex-row items-center justify-center gap-2">
+          <p className="text-sm text-muted-foreground">
+            (${convertToSGD(price, balance)} SGD)
+          </p>
         </div>
         <Button onClick={withdraw} className="w-1/2">
           Withdraw

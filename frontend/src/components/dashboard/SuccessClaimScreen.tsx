@@ -1,18 +1,30 @@
 "use client";
 import { CircleCheckBig } from "lucide-react";
 import { Button } from "../ui/button";
+import { useEffect, useState } from "react";
 
 export default function SuccessClaimScreen({
   transactionId,
-  time,
   type,
   setIsSuccess,
 }: {
   transactionId: string;
-  time: string;
+
   type: string;
   setIsSuccess: (value: boolean) => void;
 }) {
+  const [time, setTime] = useState("");
+
+  useEffect(() => {
+    // Function to format the current time
+    const updateTime = () => {
+      const now = new Date();
+      const formattedTime = now.toLocaleTimeString(); // Adjust format as needed
+      setTime(formattedTime);
+    };
+
+    updateTime(); // Set initial time
+  }, []);
   const handleClick = () => {
     setIsSuccess(false);
   };

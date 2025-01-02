@@ -1,3 +1,4 @@
+import { getXrpPrice } from "@/actions/xrp";
 import CreditsDisplay from "@/components/dashboard/CreditsDisplay";
 import TransactionsTabs from "@/components/dashboard/TransactionsTabs";
 import { XrpCard } from "@/components/dashboard/XrpCard";

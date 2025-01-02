@@ -1,5 +1,6 @@
 import { getUsers } from "@/actions/users";
 import { AccountsTable } from "@/components/admin/AccountsTable";
+import GenerateQR from "@/components/admin/GenerateQR";
 import { MintingTabs } from "@/components/admin/MintingTabs";
 
 export default async function AdminPanel() {
@@ -13,6 +14,18 @@ export default async function AdminPanel() {
           Note: this page is only accessible for admins, however for development
           purposes, this page will be accessible to all users.
         </p>
+      </div>
+      <div className="mt-8 w-full rounded-lg bg-primary/5 p-10">
+        <h2 className="mb-4 text-xl font-bold">Generate DINING claim code</h2>
+        <p className="text-sm text-muted-foreground">
+          This is for admins to create QR code / claim code for the specific
+          hall for specific day.
+        </p>
+        <p className="text-sm text-muted-foreground">
+          NOTE: testing purposes only, currently it will only generate one QR
+          code.
+        </p>
+        <GenerateQR />
       </div>
       <div className="mt-8 w-full rounded-lg bg-primary/5 p-10">
         <h2 className="mb-4 text-xl font-bold">All Accounts</h2>

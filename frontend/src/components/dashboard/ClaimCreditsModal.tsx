@@ -19,6 +19,9 @@ import {
   dinnerContractConfig,
 } from "@/lib/wagmi/contracts";
 import { bigIntToNumber } from "@/lib/utils";
+import { toast } from "@/hooks/use-toast";
+import { createCreditClaim } from "@/actions/credits";
+import { useSession } from "next-auth/react";
 
 export function ClaimCreditModal({ type }: { type: string }) {
   const [isSuccess, setIsSuccess] = useState(false);
@@ -36,6 +39,52 @@ export function ClaimCreditModal({ type }: { type: string }) {
     functionName: "balanceOf",
     args: [address as `0x${string}`],
   });
+
+  const { data } = useSession();
+  if (!data || !data.user) return null;
+  const id = data.user.id;
+
+  const handleFormSubmission = async function onSubmit(
+    otp: string,
+    type: string,
+  ) {
+    if (otp === "1234" && type === "Breakfast") {
+      try {
+        const txHash = await writeContractAsync({
+          ...breakfastContractConfig,
+          functionName: "claimDiningCredit",
+          args: [],
+        });
+        await createCreditClaim(id as string, txHash as string, type);
+        setIsSuccess(true);
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to claim credits. Please try again",
+        });
+      }
+    } else if (otp === "1234" && type === "Dinner") {
+      try {
+        const txHash = await writeContractAsync({
+          ...dinnerContractConfig,
+          functionName: "claimDiningCredit",
+          args: [],
+        });
+        await createCreditClaim(id as string, txHash as string, type);
+        setIsSuccess(true);
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to claim credits. Please try again",
+        });
+      }
+    } else {
+      toast({
+        title: "Invalid OTP",
+        description: "Please try again",
+      });
+    }
+  };
 
   if (
     (type === "Breakfast" && bigIntToNumber(bfastBalance) < 1) ||
@@ -83,21 +132,16 @@ export function ClaimCreditModal({ type }: { type: string }) {
           <div className="flex flex-col gap-4 py-4">
             <Scanner
               onScan={(detectedCodes) => {
-                detectedCodes.forEach((code) => console.log(code));
+                handleFormSubmission(detectedCodes[0].rawValue, type);
               }}
             />
-            <OTPForm
-              type={type}
-              setIsSuccess={setIsSuccess}
-              writeContractAsync={writeContractAsync}
-            />
+            <OTPForm onSubmit={handleFormSubmission} />
           </div>
         )}
         {isSuccess && (
           <SuccessClaimScreen
             transactionId="1"
             type={type}
-            time="14/12 12:00pm"
             setIsSuccess={setIsSuccess}
           />
         )}

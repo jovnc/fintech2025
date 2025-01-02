@@ -61,7 +61,11 @@ const columns: ColumnDef<Listing>[] = [
   {
     accessorKey: "type",
     header: () => <div className="text-left">Type</div>,
-    cell: ({ row }) => <div>{row.getValue("type")}</div>,
+    cell: ({ row }) => {
+      const type = row.original.type;
+
+      return <div>{type[0].toUpperCase() + type.slice(1)}</div>;
+    },
   },
   {
     accessorKey: "amount",
