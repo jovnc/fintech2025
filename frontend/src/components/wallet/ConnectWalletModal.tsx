@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Wallet } from "lucide-react";
 import MetamaskLoginButton from "./MetamaskLoginButton";
+import { toast } from "@/hooks/use-toast";
 
 export function ConnectWalletModal({
   children,
@@ -23,6 +24,10 @@ export function ConnectWalletModal({
     console.log("Connecting to custodial wallet...");
     // Add your custodial wallet connection logic here
     setOpen(false);
+    toast({
+      title: "Maintenance",
+      description: "This feature is a work in progress",
+    });
   };
 
   return (
