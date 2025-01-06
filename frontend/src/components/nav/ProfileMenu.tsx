@@ -15,7 +15,7 @@ import { ConnectWalletModal } from "../wallet/ConnectWalletModal";
 import { Button } from "../ui/button";
 import { useAccount } from "wagmi";
 import { DisconnectWalletButton } from "../wallet/DisconnectWalletButton";
-import { AddXrpEvmButton } from "../AddXrpEvmButton";
+import { AddXrpEvmButton } from "../wallet/AddXrpEvmButton";
 
 interface ProfileMenuProps {
   username: string;

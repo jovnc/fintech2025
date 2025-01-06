@@ -13,5 +13,5 @@ export function bigIntToNumber(value: bigint | undefined) {
 export function convertToSGD(sgd: string, amount: string | number | undefined) {
   if (!amount) return 0;
   if (!sgd) return 0;
-  return Number(sgd) * Number(amount);
+  return (Number(sgd) * Number(amount)).toFixed(2);
 }

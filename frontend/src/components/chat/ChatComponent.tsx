@@ -107,7 +107,6 @@ export function ChatComponent() {
                   onChange={handleInputChange}
                   placeholder="Type your message..."
                   disabled={isLoading}
-                  className="bg-white"
                 />
                 <Button type="submit" size="icon" disabled={isLoading}>
                   <Send className="h-4 w-4" />
