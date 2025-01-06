@@ -15,6 +15,7 @@ import { ConnectWalletModal } from "../wallet/ConnectWalletModal";
 import { Button } from "../ui/button";
 import { useAccount } from "wagmi";
 import { DisconnectWalletButton } from "../wallet/DisconnectWalletButton";
+import { AddXrpEvmButton } from "../AddXrpEvmButton";
 
 interface ProfileMenuProps {
   username: string;
@@ -36,7 +37,7 @@ export function ProfileMenu({ username, avatarUrl }: ProfileMenuProps) {
 
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
-      <DropdownMenuTrigger className="flex items-center gap-2 rounded-lg p-2 hover:bg-muted border">
+      <DropdownMenuTrigger className="flex items-center gap-2 rounded-lg border p-2 hover:bg-muted">
         <Avatar className="h-8 w-8">
           <AvatarImage src={avatarUrl} alt={username} />
           <AvatarFallback>{username.slice(0, 2).toUpperCase()}</AvatarFallback>
@@ -54,7 +55,7 @@ export function ProfileMenu({ username, avatarUrl }: ProfileMenuProps) {
           <ChevronDown className="h-4 w-4 opacity-50" />
         )}
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56 flex flex-col gap-2">
+      <DropdownMenuContent align="end" className="flex w-56 flex-col gap-2">
         <DropdownMenuItem
           className="hover:cursor-pointer"
           onSelect={(e) => e.preventDefault()}
@@ -69,6 +70,14 @@ export function ProfileMenu({ username, avatarUrl }: ProfileMenuProps) {
           )}
           {isConnected && <DisconnectWalletButton />}
         </DropdownMenuItem>
+        {isConnected && (
+          <DropdownMenuItem
+            className="hover:cursor-pointer"
+            onSelect={(e) => e.preventDefault()}
+          >
+            <AddXrpEvmButton />
+          </DropdownMenuItem>
+        )}
         <Separator />
         <DropdownMenuItem className="text-red-500 hover:cursor-pointer" asChild>
           <LogoutButton />

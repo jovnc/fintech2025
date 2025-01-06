@@ -19,14 +19,12 @@ const xrpl_evm_sidechain_devnet = {
 } as const satisfies Chain;
 
 export const config = createConfig({
-  chains: [mainnet, sepolia, xrpl_evm_sidechain_devnet],
+  chains: [xrpl_evm_sidechain_devnet],
   connectors: [injected()],
   storage: createStorage({
     storage: cookieStorage,
   }),
   transports: {
-    [mainnet.id]: http(),
-    [sepolia.id]: http(),
     [xrpl_evm_sidechain_devnet.id]: http(),
   },
 });
