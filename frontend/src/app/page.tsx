@@ -1,4 +1,3 @@
-import { AddXrpEvmButton } from "@/components/AddXrpEvmButton";
 import Image from "next/image";
 
 export default async function page() {
@@ -62,7 +61,6 @@ export default async function page() {
             <div className="text-center text-sm text-muted-foreground">
               credits to charity
             </div>
-            <AddXrpEvmButton />
           </div>
         </div>
       </div>
