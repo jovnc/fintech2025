@@ -1,36 +1,31 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FinishYourCredits
 
-## Getting Started
+FinishYourCredits is a blockchain-based peer-to-peer marketplace for NUS dining credits, leveraging XRPL and its EVM sidechain to enhance security, transparency, promote environmental sustainability through waste reduction, while promoting inclusivity.
 
-First, run the development server:
+This is a submission for NUS Fintech Summit 2025 for the problem statement by Ripple:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Develop fintech applications leveraging XRPL and its new EVM Sidechain to minimize traditional costs associated with such ventures. These applications may encompass areas like insurance, wealth management, cross-border payments, lending, and more.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+For more details about the project, refer to the devpost [here](https://devpost.com/software/finishyourcredits) or ideation report [here](https://docs.google.com/document/d/1MGq_7DXW6DbWYrtslIWyOBwmkku4kFRHT99xC2-lwNE/edit?usp=sharing).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+You can view the live demo of the application [here](https://fintech2025.vercel.app/)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Setting up the project
 
-## Learn More
+### Setting up the smart contract
 
-To learn more about Next.js, take a look at the following resources:
+1. `cd contract` to change to the contract directory
+2. run `npx hardhat compile` to compile the smart contracts
+3. run `npx hardhat ignition deploy ./ignition/modules/FintechModule.ts --network XRPL_EVM_Sidechain_Devnet` to deploy the smart contract on the EVM sidechain
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Setting up the database
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. create a database on supabase or create on localhost using postgres
+2. enter the DB connection string inside the .env file inside the frontend folder
 
-## Deploy on Vercel
+### Setting up frontend / backend
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. `cd frontend` to change to frontned directory
+2. fill in environment variables in .env.example file and copy to .env file
+3. run `npm install --peer-legacy-deps` to install legacy deps as we are using Next.JS v15.0
+4. run `npm run dev` to start the server on localhost
