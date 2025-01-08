@@ -70,14 +70,14 @@ export function ProfileMenu({ username, avatarUrl }: ProfileMenuProps) {
           )}
           {isConnected && <DisconnectWalletButton />}
         </DropdownMenuItem>
-        {isConnected && (
-          <DropdownMenuItem
-            className="hover:cursor-pointer"
-            onSelect={(e) => e.preventDefault()}
-          >
-            <AddXrpEvmButton />
-          </DropdownMenuItem>
-        )}
+
+        <DropdownMenuItem
+          className="hover:cursor-pointer"
+          onSelect={(e) => e.preventDefault()}
+        >
+          <AddXrpEvmButton />
+        </DropdownMenuItem>
+
         <Separator />
         <DropdownMenuItem className="text-red-500 hover:cursor-pointer" asChild>
           <LogoutButton />
