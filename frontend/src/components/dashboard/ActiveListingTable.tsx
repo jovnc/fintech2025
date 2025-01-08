@@ -34,8 +34,10 @@ export default function ActiveListingTable() {
     })) || [];
 
   const combinedData = [...bfastOrders, ...dinnerOrders];
+
+  console.log(combinedData);
   const filteredData = combinedData.filter(
-    (order) => order.seller === address && order.isActive,
+    (order) => order.seller === address && order.active,
   );
 
   return <ListingsTable listings={filteredData} />;
