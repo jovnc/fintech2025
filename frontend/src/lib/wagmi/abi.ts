@@ -77,7 +77,8 @@ export const breakfastTokenAbi = [
           { internalType: "address", name: "seller", type: "address" },
           { internalType: "uint256", name: "amount", type: "uint256" },
           { internalType: "uint256", name: "price", type: "uint256" },
-          { internalType: "bool", name: "isActive", type: "bool" },
+          { internalType: "bool", name: "active", type: "bool" },
+          { internalType: "uint256", name: "startTime", type: "uint256" },
         ],
         internalType: "struct SellOrder[]",
         name: "",
@@ -92,26 +93,6 @@ export const breakfastTokenAbi = [
     name: "claimDiningCredit",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "listOrdersByUser",
-    outputs: [
-      {
-        components: [
-          { internalType: "uint256", name: "id", type: "uint256" },
-          { internalType: "address", name: "seller", type: "address" },
-          { internalType: "uint256", name: "amount", type: "uint256" },
-          { internalType: "uint256", name: "price", type: "uint256" },
-          { internalType: "bool", name: "active", type: "bool" },
-        ],
-        internalType: "struct SellOrder[]",
-        name: "",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {
@@ -221,7 +202,8 @@ export const dinnerTokenAbi = [
           { internalType: "address", name: "seller", type: "address" },
           { internalType: "uint256", name: "amount", type: "uint256" },
           { internalType: "uint256", name: "price", type: "uint256" },
-          { internalType: "bool", name: "isActive", type: "bool" },
+          { internalType: "bool", name: "active", type: "bool" },
+          { internalType: "uint256", name: "startTime", type: "uint256" },
         ],
         internalType: "struct SellOrder[]",
         name: "",
@@ -236,26 +218,6 @@ export const dinnerTokenAbi = [
     name: "claimDiningCredit",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "listOrdersByUser",
-    outputs: [
-      {
-        components: [
-          { internalType: "uint256", name: "id", type: "uint256" },
-          { internalType: "address", name: "seller", type: "address" },
-          { internalType: "uint256", name: "amount", type: "uint256" },
-          { internalType: "uint256", name: "price", type: "uint256" },
-          { internalType: "bool", name: "active", type: "bool" },
-        ],
-        internalType: "struct SellOrder[]",
-        name: "",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {

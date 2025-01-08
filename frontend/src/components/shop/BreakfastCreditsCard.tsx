@@ -12,7 +12,7 @@ export default function BreakfastCreditsCard() {
     functionName: "listOrders",
   });
 
-  const filteredData = data?.filter((order) => order.isActive); // only get active orders
+  const filteredData = data?.filter((order) => order.active); // only get active orders
 
   // accumulate orders with the same price
   const orderBook = filteredData?.reduce(
